@@ -1,11 +1,15 @@
 package services.impl;
 
+import exceptions.NoTicketsExceedsCapacityException;
 import models.Event;
 import repositories.EventRepository;
 import services.EventService;
+import validators.EventValidator;
 
 import java.util.Collections;
 import java.util.List;
+
+import static constants.Constants.NO_TICKETS_EXCEEDS_LOCATION_CAPACITY;
 
 public class EventServiceImpl implements EventService {
     public final EventRepository eventRepository;
@@ -16,7 +20,18 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void addEvent(Event event) {
-        eventRepository.addEvent(event);
+        try {
+            if (!EventValidator.validateTicketsToSell(event.getLocation(), event.getTicketsAvailable())) {
+                throw new NoTicketsExceedsCapacityException(NO_TICKETS_EXCEEDS_LOCATION_CAPACITY);
+            }
+            eventRepository.addEvent(event);
+            System.out.println("Adding Event "+ event.getName() + " was successfully done");
+
+        } catch (NoTicketsExceedsCapacityException exception) {
+            System.out.println("Adding Event "+ event.getName() + " failed . An exception occured: ");
+            System.out.println(exception.getMessage());
+        }
+
     }
 
     @Override
@@ -26,6 +41,11 @@ public class EventServiceImpl implements EventService {
         } else {
             return eventRepository.getEvents();
         }
+    }
+
+    @Override
+    public void removeEvent(Event event) {
+        eventRepository.removeEvent(event);
     }
 
     @Override

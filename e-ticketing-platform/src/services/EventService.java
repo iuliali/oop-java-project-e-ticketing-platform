@@ -2,7 +2,6 @@ package services;
 
 import models.Event;
 
-import javax.swing.*;
 import java.util.List;
 
 public interface EventService {
@@ -11,4 +10,6 @@ public interface EventService {
     List<Event> getEventsSorted();
 
     List<Event> getEvents(boolean sorted);
+
+    void removeEvent(Event event);
 }

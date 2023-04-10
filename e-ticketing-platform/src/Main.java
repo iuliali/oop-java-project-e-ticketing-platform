@@ -1,3 +1,4 @@
+import enums.EventType;
 import enums.LocationType;
 import enums.TicketCategory;
 import models.Event;
@@ -24,26 +25,41 @@ public class Main {
         TicketService ticketService = new TicketServiceImpl(eventService);
         UserService userService = new UserServiceImpl(ticketService);
 
-        Location berariaH = new Location("Beraria H","Soseaua Kiseleff 32" ,800, LocationType.STAND);
-
+        Location berariaH = new Location("Beraria H","Soseaua Kiseleff 32" ,800,
+                LocationType.STAND);
 
         Map<TicketCategory, Integer> ticketsConcertPop = Map.of(TicketCategory.VIP, 300,
                                                                 TicketCategory.GENERAL_ENTRANCE, 500);
 
-        Event concertPop = new SingleDayEvent("Concert Pop", berariaH, ticketsConcertPop, LocalDateTime.now().plusDays(4));
+        Event concertPop = new SingleDayEvent("Concert Pop", berariaH, EventType.CONCERT,
+                            ticketsConcertPop,
+                            LocalDateTime.of(2023,7,1, 18, 0, 0),
+                            150);
+
+        Location salaPalatului = new Location("Sala Palatului", "Str. Ion Campineanu 28",
+                400, LocationType.SEAT);
+        Event concertSimfonic = new SingleDayEvent("Concert Simfonic", salaPalatului, EventType.CONCERT,
+                Map.of(TicketCategory.GENERAL_ENTRANCE, 400),
+                LocalDateTime.of(2023,7,1, 18, 0, 0), 200);
 
         locationService.addLocation(berariaH);
+        locationService.addLocation(salaPalatului);
 
+        eventService.addEvent(concertSimfonic);
         eventService.addEvent(concertPop);
+        System.out.println(eventService.getEventsSorted());
 
-        userService.registerNewUser("georgiana99", "Iulia", "Antonescu", LocalDateTime.now().minusYears(20));
-        userService.registerNewUser("andrei645", "Andrei", "Andries", LocalDateTime.now().minusYears(25));
 
-        System.out.println(userService.getUsers());
+        userService.registerNewUser("georgiana99", "Iulia",
+                "Antonescu",
+                LocalDateTime.now().minusYears(20));
+        userService.registerNewUser("andrei645", "Andrei",
+                "Andries",
+                LocalDateTime.now().minusYears(25));
 
-        System.out.println(locationService.getLocations());
+        TicketEvent ticket = userService.buyTicket(userService.getUserByUserName("georgiana99"),
+                concertSimfonic, TicketCategory.GENERAL_ENTRANCE);
+        System.out.println(ticket);
 
-        TicketEvent ticketEvent = userService.buyTicket(userService.getUserByUserName("georgiana99"),concertPop,TicketCategory.GENERAL_ENTRANCE);
-        System.out.println(ticketEvent);
     }
 }

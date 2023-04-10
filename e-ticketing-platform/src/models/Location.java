@@ -11,8 +11,8 @@ public class Location {
 
     @Override
     public String toString() {
-        return "\nLocation{" +
-                "name= " + name +  ", \n"
+        return "\nLocation{\n" +
+                "\tname= " + name +  ", \n"
                 +"\taddress= " + address +  ", \n"
                 +"\ttotalCapacity= " + totalCapacity + ", \n"
                 +"\ttype= " + type +

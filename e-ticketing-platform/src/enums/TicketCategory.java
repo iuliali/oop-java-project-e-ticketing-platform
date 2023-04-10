@@ -1,14 +1,21 @@
 package enums;
 
 public enum TicketCategory {
-    VIP(0), GOLDEN_CIRCLE(1), GENERAL_ENTRANCE(2), PASS(5);
+    VIP("VIP", 0), GOLDEN_CIRCLE("Golden Circle", 1),
+    GENERAL_ENTRANCE("General Entrance", 2), PASS("Pass", 5);
+    private final String name;
     private final int priority;
+
+    public String getName() {
+        return name;
+    }
 
     public int getPriority() {
         return priority;
     }
 
-    TicketCategory(int priority) {
+    TicketCategory(String name, int priority) {
+        this.name = name;
         this.priority = priority;
     }
 }

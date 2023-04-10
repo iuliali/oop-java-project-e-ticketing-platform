@@ -1,5 +1,6 @@
 package models;
 
+import enums.EventType;
 import enums.TicketCategory;
 import exceptions.NoTicketsExceedsCapacityException;
 import validators.EventValidator;
@@ -7,12 +8,14 @@ import validators.EventValidator;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+import static constants.Constants.TIME_FORMATTER;
 import static constants.Constants.NO_TICKETS_EXCEEDS_LOCATION_CAPACITY;
 
 public abstract class Event implements Comparable<Event> {
     private String name;
     private Location location;
     private LocalDateTime startDate;
+    private EventType eventType;
     private Map<TicketCategory, Integer> ticketsAvailable;
 
     public LocalDateTime getStartDate() {
@@ -35,14 +38,13 @@ public abstract class Event implements Comparable<Event> {
     public String toString() {
         return "\n" +
                 "\tname=" + name + ", \n"+
-                "\tlocation=" + location + ", \n"+
-                "\tstart date=" + startDate.toLocalDate() + ", \n";
+                "\tlocation=" + location.getName() + ", \n"+
+                "\tstart date=" + startDate.toLocalDate() + " hours: " + startDate.toLocalTime().format(TIME_FORMATTER) + ", \n";
     }
 
-    public Event(String name, Location location, LocalDateTime startDate, Map<TicketCategory, Integer> ticketsAvailable) {
-        if (!EventValidator.validateTicketsToSell(location, ticketsAvailable)) {
-            throw new NoTicketsExceedsCapacityException(NO_TICKETS_EXCEEDS_LOCATION_CAPACITY);
-        }
+    public Event(String name, Location location, LocalDateTime startDate,
+                 EventType eventType, Map<TicketCategory, Integer> ticketsAvailable) {
+        this.eventType = eventType;
         this.name = name;
         this.location = location;
         this.startDate = startDate;

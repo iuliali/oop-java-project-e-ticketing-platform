@@ -14,11 +14,11 @@ public class User {
     @Override
     public String toString() {
         return "User {\n" +
-                "\tusername=" + userName + ',' +'\n' +
-                "\tbirthDate=" + birthDate.toLocalDate() +  ',' +'\n' +
-                "\tfirstName=" + firstName + ',' +'\n' +
-                "\tlastName=" + lastName+ ',' +'\n' +
-                "\tboughtTickets=" + boughtTickets + ',' +'\n' +
+                "\tusername: " + userName + ',' +'\n' +
+                "\tbirthDate: " + birthDate.toLocalDate() +  ',' +'\n' +
+                "\tfirstName: " + firstName + ',' +'\n' +
+                "\tlastName: " + lastName+ ',' +'\n' +
+                "\tnumber of tickets bought:" + boughtTickets.size() + ',' +'\n' +
                 '}';
     }
 

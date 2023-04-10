@@ -11,8 +11,8 @@ public class TicketEvent {
     public String toString() {
         return "TicketEvent {\n" +
                 "\tid=" + id + ", \n" +
-                "\tevent=" + event +", \n" +
-                "\tticketCategory=" + ticketCategory + "\n" +
+                "\tevent:" + event.getName()+ " at "+ event.getLocation().getName() +", \n" +
+                "\tticketCategory=" + ticketCategory.getName() + "\n" +
                 '}';
     }
     public TicketCategory getTicketCategory() {

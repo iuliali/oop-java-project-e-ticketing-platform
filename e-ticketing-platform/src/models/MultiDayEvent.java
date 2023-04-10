@@ -1,5 +1,6 @@
 package models;
 
+import enums.EventType;
 import enums.TicketCategory;
 
 import java.time.LocalDateTime;
@@ -36,9 +37,9 @@ public class MultiDayEvent extends Event {
         this.singleDayEvents = singleDayEvents;
     }
 
-    public MultiDayEvent(String name, Location location, int noPassesAvailable,
+    public MultiDayEvent(String name, Location location, EventType eventType, int noPassesAvailable,
                          LocalDateTime startDate, LocalDateTime endDate) {
-        super(name, location, startDate, Map.of(TicketCategory.PASS, noPassesAvailable));
+        super(name, location, startDate, eventType, Map.of(TicketCategory.PASS, noPassesAvailable));
         this.singleDayEvents = new ArrayList<>();
         this.endDate = endDate;
     }
