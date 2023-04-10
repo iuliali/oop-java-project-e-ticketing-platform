@@ -9,7 +9,7 @@ import java.util.List;
 import static constants.Constants.EVENT_LIST_EMPTY;
 
 public class EventRepository {
-    List<Event> events;
+    private List<Event> events;
 
     public EventRepository() {
         this.events = new ArrayList<>();

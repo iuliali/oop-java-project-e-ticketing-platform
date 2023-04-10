@@ -1,7 +1,11 @@
 package services.impl;
 
+import exceptions.FirstArgumentMustBeAMultiDayEventException;
+import exceptions.InvalidEventsListException;
 import exceptions.NoTicketsExceedsCapacityException;
 import models.Event;
+import models.MultiDayEvent;
+import models.SingleDayEvent;
 import repositories.EventRepository;
 import services.EventService;
 import validators.EventValidator;
@@ -9,7 +13,7 @@ import validators.EventValidator;
 import java.util.Collections;
 import java.util.List;
 
-import static constants.Constants.NO_TICKETS_EXCEEDS_LOCATION_CAPACITY;
+import static constants.Constants.*;
 
 public class EventServiceImpl implements EventService {
     public final EventRepository eventRepository;
@@ -46,6 +50,19 @@ public class EventServiceImpl implements EventService {
     @Override
     public void removeEvent(Event event) {
         eventRepository.removeEvent(event);
+    }
+
+    @Override
+    public void addDayEventsToMultipleDayEvent(Event multiDayEvent, Event... events) {
+        if(!(multiDayEvent instanceof MultiDayEvent)) {
+            throw new FirstArgumentMustBeAMultiDayEventException(FIRST_ARGUMENT_MUST_BE_MULTI_DAY_EVENT);
+        } else if (!EventValidator.validateSingleDayEvents(List.of(events))) {
+            throw new InvalidEventsListException(INVALID_EVENT_LIST);
+        } else {
+            for (Event event : List.of(events)) {
+                ((MultiDayEvent) multiDayEvent).addSingleDayEventToMultipleDaysEvent((SingleDayEvent) event);
+            }
+        }
     }
 
     @Override

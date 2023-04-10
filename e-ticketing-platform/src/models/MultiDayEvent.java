@@ -2,11 +2,15 @@ package models;
 
 import enums.EventType;
 import enums.TicketCategory;
+import exceptions.DayEventNotInIntervalException;
+import validators.EventValidator;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static constants.Constants.DAY_EVENT_NOT_IN_INTERVAL;
 
 public class MultiDayEvent extends Event {
     private LocalDateTime endDate;
@@ -16,9 +20,16 @@ public class MultiDayEvent extends Event {
     public String toString() {
         return "MultiDayEvent{" +
                 super.toString() + "\n" +
-                "endDate :" + endDate.toLocalDate() + "\n" +
-                "\tsingleDayEvents :" + singleDayEvents.toString() +
+                "\tendDate :" + endDate.toLocalDate() + "\n" +
+                "\tsingleDayEvents :" + singleDayEvents.stream().map(Event::getName) +
                 '}';
+    }
+    public void addSingleDayEventToMultipleDaysEvent(SingleDayEvent event) {
+        if (!EventValidator.validateSingleDayEvent(this, event)){
+            throw new DayEventNotInIntervalException(DAY_EVENT_NOT_IN_INTERVAL);
+        } else {
+            this.singleDayEvents.add(event);
+        }
     }
 
     public LocalDateTime getEndDate() {

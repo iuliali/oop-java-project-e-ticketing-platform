@@ -13,7 +13,6 @@ public class TicketRepository {
     }
 
     public Map<Event, List<TicketEvent>> getSoldTicketsByEvents() {
-        //TODO : add exception
         return this.soldTickets;
     }
 
