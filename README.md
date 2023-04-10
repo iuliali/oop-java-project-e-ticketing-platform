@@ -22,10 +22,12 @@ ___
 ### Actiuni care pot fi facute asupra sistemului (dupa instantiere servicii in ordinea metionata mai sus) :
  #### UserService:
  - *registerNewUser* -> creeaza un nou user si il adauga in repository
- - **
+ - *getUserByUserName* -> returneaza un obiect de tip user din user repository dupa username, daca nu exista -> arunca eroare
  - *buyTicket* -> cumpara un bilet 
 
  #### TicketService:
+ - *addTicket* -> adauga un ticket in repository
+ - *getAvailableTicket* -> returneaza un bilet la evenimentul dorit, la categoria dorita, poate arunca eroare daca toate biletele sunt vandute
 
  #### LocationService:
   - *addLocation* -> adauga locatia in repository
