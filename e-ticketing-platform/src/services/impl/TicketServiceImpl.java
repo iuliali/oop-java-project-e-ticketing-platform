@@ -85,4 +85,19 @@ public class TicketServiceImpl implements TicketService {
         }
 
     }
+
+    @Override
+    public void showSoldTicketsByEvents() {
+        Map<Event, List<TicketEvent>> map= getTickets();
+        var mapEntries = map.entrySet().stream().toList();
+        for (Map.Entry<Event, List<TicketEvent>> mapEntry : mapEntries) {
+            System.out.println((mapEntries.indexOf(mapEntry ) + 1) + ". ");
+            System.out.println("Event: " + mapEntry.getKey() + "\n");
+            System.out.println("Tickets: " );
+            for(TicketEvent ticket: mapEntry.getValue()) {
+                System.out.println("id: " + ticket.getId() + " " + ticket.getTicketCategory().getName() + "\n");
+            }
+            System.out.println();
+        }
+    }
 }

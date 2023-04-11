@@ -1,6 +1,7 @@
 import enums.EventType;
 import enums.LocationType;
 import enums.TicketCategory;
+import exceptions.UserNameNotFoundException;
 import models.*;
 import services.EventService;
 import services.LocationService;
@@ -12,7 +13,10 @@ import services.impl.TicketServiceImpl;
 import services.impl.UserServiceImpl;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
+
+import static constants.Constants.USERNAME_NOT_FOUND;
 
 public class Main {
     public static void main(String[] args)
@@ -75,27 +79,41 @@ public class Main {
         userService.registerNewUser("georgiana99", "Iulia",
                 "Antonescu",
                 LocalDateTime.of(2000,5,7, 19, 0, 0));
+        //erorr for next action ->
+        userService.registerNewUser("georgiana99", "Georgiana",
+                "Marinescu",
+                LocalDateTime.of(2005,5,7, 19, 0, 0));
         userService.registerNewUser("andrei645", "Andrei",
                 "Andries",
                 LocalDateTime.of(1996,7,7, 19, 0, 0));
+
         //7
         userService.getUsers();
 
         //8
-        System.out.println(userService.getUserByUserName("georgiana99"));
-        System.out.println(userService.getUserByUserName("georgiana89"));
+        try {
+            User user1= userService.getUserByUserName("georgiana99").orElseThrow(
+                    () -> new UserNameNotFoundException(USERNAME_NOT_FOUND, "georgiana99")
+            );
+            System.out.println(user1);
+            User user2 = userService.getUserByUserName("georgiana89").orElseThrow(
+                    () -> new UserNameNotFoundException(USERNAME_NOT_FOUND, "georgiana89")
+            );
+            System.out.println(user2);
+        } catch (UserNameNotFoundException exception) {
+            System.out.println(exception.getMessage());
+        }
 
         //9
-        TicketEvent ticket = userService.buyTicket(userService.getUserByUserName("georgiana99"),
-                concertSimfonic, TicketCategory.GENERAL_ENTRANCE);
+        TicketEvent ticket = userService.buyTicket("georgiana99",
+                concertSimfonic, TicketCategory.GENERAL_ENTRANCE).orElseThrow();
         System.out.println(ticket);
-        TicketEvent ticket2 = userService.buyTicket(userService.getUserByUserName("georgiana99"),
-                ouOfOfficeFest, TicketCategory.PASS);
+        TicketEvent ticket2 = userService.buyTicket("georgiana99",
+                ouOfOfficeFest, TicketCategory.PASS).orElseThrow();
         System.out.println(ticket2);
 
-        //10
-        System.out.println(ticketService.getTickets());
-
+        //10 print soldtickets
+        ticketService.showSoldTicketsByEvents();
 
     }
 }

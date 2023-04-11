@@ -66,6 +66,7 @@ public class User {
         this.boughtTickets = boughtTickets;
     }
 
+
     public User(String userName, LocalDateTime birthDate, String firstName, String lastName) {
         this.userName = userName;
         this.birthDate = birthDate;

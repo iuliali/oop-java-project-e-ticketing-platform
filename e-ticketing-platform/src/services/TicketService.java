@@ -12,4 +12,5 @@ public interface TicketService {
     List<TicketEvent> getTicketById();
     void addTicket(TicketEvent ticket, Event event);
     TicketEvent getAvailableTicket(Event event, TicketCategory category);
+    void showSoldTicketsByEvents();
 }

@@ -21,7 +21,7 @@ public class MultiDayEvent extends Event {
         return "MultiDayEvent{" +
                 super.toString() + "\n" +
                 "\tendDate :" + endDate.toLocalDate() + "\n" +
-                "\tsingleDayEvents :" + singleDayEvents.stream().map(Event::getName) +
+                "\tsingleDayEvents :" + singleDayEvents.stream().map(Event::getName).toList() +
                 '}';
     }
     public void addSingleDayEventToMultipleDaysEvent(SingleDayEvent event) {

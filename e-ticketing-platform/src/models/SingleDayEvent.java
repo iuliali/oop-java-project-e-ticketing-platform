@@ -18,7 +18,7 @@ public class SingleDayEvent extends Event {
 
     @Override
     public String toString() {
-        return "SingleDayEvent{" + "\n" +
+        return "\nSingleDayEvent{"  +
                 "\t"+super.toString() +
                 "\tduration: " + durationInMin +", \n" +
                 "\tend at : " + super.getStartDate().plusMinutes((long) durationInMin).toLocalTime().format(TIME_FORMATTER) +"\n" +
