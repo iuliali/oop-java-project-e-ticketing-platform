@@ -24,10 +24,10 @@ public class EventRepository {
     }
 
     public void removeEvent(Event event) {
-        if(events ==  null | events.isEmpty()) {
+        if(events ==  null || events.isEmpty()) {
             throw new NoEventInListException(EVENT_LIST_EMPTY);
         } else if (!events.contains(event)){
-
+            //TODO
         }
     }
 }

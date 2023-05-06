@@ -2,6 +2,7 @@ package repositories;
 
 import exceptions.NoUserException;
 import models.User;
+import services.impl.UserCSVReaderWriterServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +13,11 @@ import static constants.Constants.NO_USER_EXCEPTION_MESSAGE;
 
 public class UserRepository {
     private List<User> users;
+    private UserCSVReaderWriterServiceImpl csvReaderWriterService;
 
     public UserRepository() {
-        this.users = new ArrayList<>();
+        this.csvReaderWriterService =  UserCSVReaderWriterServiceImpl.getInstance();
+        this.users = this.csvReaderWriterService.read();
     }
 
     public List<User> getUsers() {
@@ -29,6 +32,7 @@ public class UserRepository {
             this.users = new ArrayList<>();
         }
         this.users.add(user);
+        this.csvReaderWriterService.write(user);
     }
 
     public Optional<User> getUserByUserName(String userName) {
