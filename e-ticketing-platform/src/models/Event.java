@@ -2,20 +2,26 @@ package models;
 
 import enums.EventType;
 import enums.TicketCategory;
-import exceptions.NoTicketsExceedsCapacityException;
-import validators.EventValidator;
 
 import java.time.LocalDateTime;
 import java.util.Map;
 
 import static constants.Constants.TIME_FORMATTER;
-import static constants.Constants.NO_TICKETS_EXCEEDS_LOCATION_CAPACITY;
 
 public abstract class Event implements Comparable<Event> {
     private String name;
     private Location location;
     private LocalDateTime startDate;
     private EventType eventType;
+
+    public EventType getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
+    }
+
     private Map<TicketCategory, Integer> ticketsAvailable;
 
     public LocalDateTime getStartDate() {
@@ -42,7 +48,7 @@ public abstract class Event implements Comparable<Event> {
                 "\tstart date=" + startDate.toLocalDate() + " hours: " + startDate.toLocalTime().format(TIME_FORMATTER) + ", \n";
     }
 
-    public Event(String name, Location location, LocalDateTime startDate,
+    protected Event(String name, Location location, LocalDateTime startDate,
                  EventType eventType, Map<TicketCategory, Integer> ticketsAvailable) {
         this.eventType = eventType;
         this.name = name;

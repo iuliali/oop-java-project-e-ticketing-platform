@@ -21,7 +21,7 @@ import static constants.Constants.USERNAME_NOT_FOUND;
 public class Main {
     public static void main(String[] args)
     {
-        LocationService locationService = new LocationServiceImpl();
+        LocationService locationService = new LocationServiceImpl("csv");
         EventService eventService = new EventServiceImpl();
         TicketService ticketService = new TicketServiceImpl(eventService);
         UserService userService = new UserServiceImpl(ticketService);

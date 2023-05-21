@@ -9,8 +9,8 @@ import java.util.List;
 public class LocationServiceImpl implements LocationService {
     private final LocationRepository locationRepository;
 
-    public LocationServiceImpl() {
-        this.locationRepository = new LocationRepository();
+    public LocationServiceImpl(String source) {
+        this.locationRepository = new LocationRepository(source="csv");
     }
 
     @Override
