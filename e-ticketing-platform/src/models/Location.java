@@ -3,11 +3,30 @@ package models;
 import enums.LocationType;
 
 public class Location {
+    private static Integer idGenerator = 0;
+
+    private Integer id;
 
     private String name;
     private String address;
     private int totalCapacity;
     private LocationType type;
+
+    public static Integer getIdGenerator() {
+        return idGenerator;
+    }
+
+    public static void setIdGenerator(Integer idGenerator) {
+        Location.idGenerator = idGenerator;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     @Override
     public String toString() {
@@ -28,10 +47,24 @@ public class Location {
     }
 
     public Location(String name, String address, int totalCapacity, LocationType type) {
+        this.id = ++idGenerator;
         this.name = name;
         this.address = address;
         this.totalCapacity = totalCapacity;
         this.type = type;
+    }
+
+    public Location(Integer id, String name, String address, int totalCapacity, LocationType type) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.totalCapacity = totalCapacity;
+        this.type = type;
+    }
+
+    public Location(Integer id) {
+        this.id = id;
+
     }
 
     public String getName() {

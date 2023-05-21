@@ -4,13 +4,13 @@ import enums.LocationType;
 import models.Location;
 import services.CSVReaderWriterService;
 
-import java.time.format.DateTimeFormatter;
+import static constants.Constants.DELIMITER;
+import static constants.Constants.LOCATION_FILE_NAME;
 
 public class LocationCSVReaderWriterServiceImpl implements CSVReaderWriterService<Location> {
 
     private static LocationCSVReaderWriterServiceImpl INSTANCE = null;
-    private static final String FILE_NAME = "C:\\Users\\talpa\\Desktop\\info\\sem_2\\java\\oop-java-project-e-ticketing-platform\\e-ticketing-platform\\src\\resources\\persistence\\location.csv";
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+    private static final String FILE_NAME = LOCATION_FILE_NAME;
 
     public static LocationCSVReaderWriterServiceImpl getInstance() {
         if (INSTANCE == null) {
@@ -24,7 +24,8 @@ public class LocationCSVReaderWriterServiceImpl implements CSVReaderWriterServic
 
     @Override
     public String objectToCSV(Location ob) {
-        return ob.getName() + DELIMITER
+        return ob.getId()+ DELIMITER +
+                ob.getName() + DELIMITER
                 + ob.getAddress() + DELIMITER
                 + ob.getTotalCapacity() + DELIMITER
                 + ob.getType();
@@ -32,7 +33,9 @@ public class LocationCSVReaderWriterServiceImpl implements CSVReaderWriterServic
     @Override
     public Location processCSVLine(String line) {
         String[] split = line.split(DELIMITER);
-        return new Location(split[0], split[1], Integer.parseInt(split[2]), LocationType.valueOf(split[3]));
+        return new Location(Integer.parseInt(split[0]),
+                split[1], split[2], Integer.parseInt(split[3]),
+                LocationType.valueOf(split[4]));
     }
 
 

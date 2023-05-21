@@ -3,9 +3,11 @@ package models;
 import enums.TicketCategory;
 
 public class TicketEvent {
-    private static int idGenerator = 0;
-    private final int id;
+    private static Integer idGenerator = 0;
+    private final Integer id;
+    private TicketCategory ticketCategory;
     private Event event;
+
 
     @Override
     public String toString() {
@@ -23,7 +25,10 @@ public class TicketEvent {
         this.ticketCategory = ticketCategory;
     }
 
-    private TicketCategory ticketCategory;
+    public static void setIdGenerator(Integer idGenerator) {
+        TicketEvent.idGenerator = idGenerator;
+    }
+
     public int getId() {
         return id;
     }
@@ -48,7 +53,12 @@ public class TicketEvent {
         this.id = ++idGenerator;
         this.event = event;
         this.ticketCategory = category;
+    }
 
+    public TicketEvent(Integer id, Integer eventId, TicketCategory category) {
+        this.id = id;
+        this.event = new Event(eventId);
+        this.ticketCategory = category;
     }
     public TicketEvent(TicketEvent otherTicket) {
         this.id = ++idGenerator;

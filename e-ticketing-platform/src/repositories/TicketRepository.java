@@ -2,33 +2,53 @@ package repositories;
 
 import models.Event;
 import models.TicketEvent;
+import services.impl.TicketCSVReaderWriterServiceImpl;
 
 import java.util.*;
 
 public class TicketRepository {
-    private Map<Event, List<TicketEvent>> soldTickets;
+    private List<TicketEvent> soldTickets;
+    private final TicketCSVReaderWriterServiceImpl csvReaderWriterService = TicketCSVReaderWriterServiceImpl.getInstance();
 
-    public TicketRepository() {
-        this.soldTickets = new HashMap<>();
+    public TicketRepository(List<Event> events) {
+        this.soldTickets =  this.csvReaderWriterService.read();
+        for (TicketEvent ticket: this.soldTickets) {
+            Event event = events.stream().filter(e -> e.getId() == ticket.getEvent().getId()).findAny().orElseThrow(
+                    //todo throw ex
+            );
+            ticket.setEvent(event);
+        }
+        if (!this.soldTickets.isEmpty()) {
+            Integer maxId = this.soldTickets.stream().map(TicketEvent::getId)
+                    .reduce(Integer.MIN_VALUE, Integer::max);
+            TicketEvent.setIdGenerator(maxId + 1);
+        }
     }
 
-    public Map<Event, List<TicketEvent>> getSoldTicketsByEvents() {
+    public List<TicketEvent> getSoldTickets() {
         return this.soldTickets;
     }
 
-    public Optional<List<TicketEvent>> getSoldTicketsByEvent(Event event) {
 
-        return Optional.ofNullable(this.soldTickets.get(event));
+    public void addTicket(TicketEvent ticket) {
+
+        if(soldTickets == null) {
+            this.soldTickets = new ArrayList<>();
+        }
+        this.soldTickets.add(ticket);
+        this.csvReaderWriterService.write(ticket);
+
     }
 
-    public void addTicket(TicketEvent ticket, Event event) {
-        if(soldTickets == null) {
-            this.soldTickets = new HashMap<>();
-        }
-        if (!this.soldTickets.containsKey(event)) {
-            this.soldTickets.put(event, new ArrayList<>());
-        }
-        this.soldTickets.get(event).add(ticket);
+    public Optional<TicketEvent> getTicketById(Integer id) {
+        return this.soldTickets.stream().filter(t -> t.getId() == id).findFirst();
+    }
 
+    public void deleteTicket(Integer id) {
+        TicketEvent ticket = getTicketById(id).orElseThrow(
+                //todo
+        );
+        this.soldTickets.remove(ticket);
+        this.csvReaderWriterService.writeAll(this.soldTickets);
     }
 }

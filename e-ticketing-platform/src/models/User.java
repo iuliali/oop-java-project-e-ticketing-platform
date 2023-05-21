@@ -5,11 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
+    private static Integer idGenerator = 0;
+    private Integer id;
     private String userName;
     private LocalDateTime birthDate;
     private String firstName;
     private String lastName;
     private List<TicketEvent> boughtTickets;
+
+    public static void setIdGenerator(Integer generator) {
+        idGenerator =  generator;
+    }
+
+    public static Integer getIdGenerator() {
+        return idGenerator;
+    }
 
     @Override
     public String toString() {
@@ -24,6 +34,14 @@ public class User {
 
     public void addTicket(TicketEvent ticket) {
         boughtTickets.add(ticket);
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUserName() {
@@ -66,8 +84,18 @@ public class User {
         this.boughtTickets = boughtTickets;
     }
 
-
     public User(String userName, LocalDateTime birthDate, String firstName, String lastName) {
+        this.id = ++idGenerator;
+        this.userName = userName;
+        this.birthDate = birthDate;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.boughtTickets = new ArrayList<>();
+    }
+
+
+    public User(Integer id, String userName, LocalDateTime birthDate, String firstName, String lastName) {
+        this.id = id;
         this.userName = userName;
         this.birthDate = birthDate;
         this.firstName = firstName;

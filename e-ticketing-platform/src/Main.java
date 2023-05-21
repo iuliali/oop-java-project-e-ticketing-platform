@@ -1,3 +1,5 @@
+import dtos.LocationDto;
+import dtos.UserDto;
 import enums.EventType;
 import enums.LocationType;
 import enums.TicketCategory;
@@ -13,22 +15,45 @@ import services.impl.TicketServiceImpl;
 import services.impl.UserServiceImpl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static constants.Constants.USERNAME_NOT_FOUND;
 
 public class Main {
     public static void main(String[] args)
     {
-        LocationService locationService = new LocationServiceImpl("csv");
-        EventService eventService = new EventServiceImpl();
+        LocationService locationService = new LocationServiceImpl();
+        EventService eventService = new EventServiceImpl(locationService);
         TicketService ticketService = new TicketServiceImpl(eventService);
         UserService userService = new UserServiceImpl(ticketService);
 
-//        Location berariaH = new Location("Beraria H","Soseaua Kiseleff 32" ,800,
+//        Location areneleRomane = new Location("Arenele Romane","Parcul Carol", 700,
 //                LocationType.STAND);
+//        locationService.addLocation(areneleRomane);
+//        List<MapEventTicketsConfiguration> map = new ArrayList<>();
+//        map.add(new MapEventTicketsConfiguration(TicketCategory.GENERAL_ENTRANCE, 500));
+//        map.add(new MapEventTicketsConfiguration(TicketCategory.VIP, 200));
+            userService.returnTicket("georgiana199", 1);
+
+
 //
+//        Event primavara = new Concert("Primavara","Delia", areneleRomane,
+//                LocalDateTime.of(2023,5,23, 16, 0, 0),
+//                LocalDateTime.of(2023,5,23, 23, 59, 59),
+//                EventType.CONCERT,
+//                map
+//                );
+//        eventService.addEvent(primavara);
+//        userService.registerNewUser("georgiana199", "Iulia",
+//                "Antonescu",
+//                LocalDateTime.of(2000,5,7, 19, 0, 0));
+//
+//        Optional<TicketEvent> ticket = userService.buyTicket("georgiana199", primavara, TicketCategory.GENERAL_ENTRANCE);
+//        System.out.println(ticket);
+
 //        Map<TicketCategory, Integer> ticketsConcertPop = Map.of(TicketCategory.VIP, 301,
 //                                                                TicketCategory.GENERAL_ENTRANCE, 500);
 //
@@ -88,7 +113,7 @@ public class Main {
 //                LocalDateTime.of(1996,7,7, 19, 0, 0));
 //
 //        //7
-        System.out.println(userService.getUsers());
+//        System.out.println(userService.getUsers());
 //
 //        //8
 //        try {

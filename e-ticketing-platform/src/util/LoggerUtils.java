@@ -10,9 +10,9 @@ import static constants.Constants.LOGS_FILE_NAME;
 public class LoggerUtils {
 
 
-    public static Logger getLogger(String clasName) {
+    public static Logger getLogger(String className) {
 
-        Logger LOGGER = Logger.getLogger(clasName);
+        Logger LOGGER = Logger.getLogger(className);
         try {
             FileHandler fileHandler = new FileHandler(LOGS_FILE_NAME);
             SimpleFormatter simpleFormatter = new SimpleFormatter();

@@ -10,7 +10,4 @@ public interface EventService {
     List<Event> getEventsSorted();
 
     List<Event> getEvents(boolean sorted);
-
-    void removeEvent(Event event);
-    void addDayEventsToMultipleDayEvent(Event multiDayEvent, Event...events);
 }
