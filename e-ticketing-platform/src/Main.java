@@ -33,13 +33,14 @@ public class Main {
         TicketService ticketService = new TicketServiceImpl(eventService, databaseConfiguration);
         UserService userService = new UserServiceImpl(ticketService, databaseConfiguration);
 
-        List<MapEventTicketsConfiguration> configs = new ArrayList<>();
-        configs.add(new MapEventTicketsConfiguration(TicketCategory.GENERAL_ENTRANCE, 800));
-
-//        eventService.addEvent(new Concert("Primavara incepe cu tine", "Holograf",
-//                locationService.getLocationById(1).get(), LocalDateTime.now(), LocalDateTime.now().plusHours(6),
-//                EventType.CONCERT,configs));
+        System.out.println(userService.getUsers());
+        System.out.println(ticketService.getTickets());
         System.out.println(eventService.getEvents(true));
+        System.out.println(locationService.getLocations());
+
+
+
+
 
 
     }
