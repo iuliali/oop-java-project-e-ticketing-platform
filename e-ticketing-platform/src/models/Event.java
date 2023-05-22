@@ -132,6 +132,7 @@ public class Event implements Comparable<Event> {
         this.location = other.location;
         this.startDate = other.startDate;
         this.endDate = other.endDate;
+        this.ticketsAvailable = other.ticketsAvailable;
     }
 
 

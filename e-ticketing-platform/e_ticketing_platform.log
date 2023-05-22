@@ -1,24 +1,30 @@
-May 22, 2023 6:44:04 PM services.impl.LocationServiceImpl <init>
+May 22, 2023 9:48:55 PM services.impl.LocationServiceImpl <init>
 INFO: services.impl.LocationServiceImpl created.
-May 22, 2023 6:44:04 PM services.impl.EventServiceImpl <init>
+May 22, 2023 9:48:55 PM services.impl.EventServiceImpl <init>
 INFO: services.impl.EventServiceImpl created.
-May 22, 2023 6:44:04 PM services.impl.TicketServiceImpl <init>
+May 22, 2023 9:48:55 PM services.impl.TicketServiceImpl <init>
 INFO: services.impl.TicketServiceImpl created.
-May 22, 2023 6:44:04 PM services.impl.UserServiceImpl <init>
+May 22, 2023 9:48:55 PM services.impl.UserServiceImpl <init>
 INFO: services.impl.UserServiceImpl created.
-May 22, 2023 6:44:04 PM services.impl.UserServiceImpl getUsers
+May 22, 2023 9:48:55 PM services.impl.UserServiceImpl getUsers
 INFO: User Service method getUsers() called
-May 22, 2023 6:44:04 PM services.impl.EventServiceImpl getEvents
+May 22, 2023 9:48:55 PM services.impl.EventServiceImpl getEvents
 INFO: Event Service getEvents() called with parameter sorted = false
-May 22, 2023 6:44:04 PM services.impl.EventServiceImpl getEvents
+May 22, 2023 9:48:55 PM services.impl.EventServiceImpl getEvents
 INFO: Event Service getEvents() called with parameter sorted = false
-May 22, 2023 6:44:04 PM services.impl.EventServiceImpl getEvents
+May 22, 2023 9:48:55 PM services.impl.EventServiceImpl getEvents
 INFO: Event Service getEvents() called with parameter sorted = false
-May 22, 2023 6:44:04 PM services.impl.EventServiceImpl getEvents
+May 22, 2023 9:48:55 PM services.impl.EventServiceImpl getEvents
 INFO: Event Service getEvents() called with parameter sorted = true
-May 22, 2023 6:44:04 PM services.impl.EventServiceImpl getEventsSorted
+May 22, 2023 9:48:55 PM services.impl.EventServiceImpl getEventsSorted
 INFO: Event Service getEventsSorted() called.
-May 22, 2023 6:44:04 PM services.impl.LocationServiceImpl getLocations
+May 22, 2023 9:48:55 PM services.impl.LocationServiceImpl getLocations
 INFO: Location Service method getLocations() called.
-May 22, 2023 6:44:04 PM services.impl.EventServiceImpl getEvents
-INFO: Event Service getEvents() called with parameter sorted = false
+May 22, 2023 9:48:55 PM services.impl.EventServiceImpl deleteEvent
+INFO: Event Service deleteEvent(14) called.
+May 22, 2023 9:48:55 PM services.impl.EventServiceImpl getEventById
+INFO: Event Service getEventById(14) called.
+May 22, 2023 9:48:55 PM repositories.EventRepository deleteEvent
+INFO: Event with id=14 deleted successfully
+May 22, 2023 9:48:55 PM services.impl.EventServiceImpl deleteEvent
+INFO: Deleting Event with id=14  was successfully done

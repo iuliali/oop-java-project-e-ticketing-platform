@@ -31,6 +31,8 @@ public class StatementsString {
 
     public static final String INSERT_CONCERT = "INSERT INTO concerts (eventId, artistName) " +
             "VALUES(?,?);";
+    public static final String INSERT_PLAY = "INSERT INTO plays (eventId, specialGuest) " +
+            "VALUES(?,?);";
     public static final String INSERT_STANDUP = "INSERT INTO standups (eventId, comedianName) " +
             "VALUES(?,?);";
 
@@ -39,7 +41,7 @@ public class StatementsString {
 
     public static final String QUERY_CONCERT_BY_EVENT_ID = "SELECT * FROM concerts c WHERE c.eventId = ?";
     public static final String QUERY_STANDUP_BY_EVENT_ID = "SELECT * FROM standups s WHERE s.eventId = ?";
-
+    public static final String QUERY_PLAYS_BY_EVENT_ID = "SELECT * FROM plays p WHERE p.eventId = ?";
 
     public static final String QUERY_GET_ALL_EVENTS = "SELECT * FROM events e, locations l WHERE e.locationId = l.id";
 

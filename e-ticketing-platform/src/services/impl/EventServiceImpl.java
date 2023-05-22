@@ -60,6 +60,9 @@ public class EventServiceImpl implements EventService {
     public void deleteEvent(Integer id) {
         LOGGER.info(DELETE_EVENT.formatted(id));
         try {
+            Event event = getEventById(id).orElseThrow(
+                    () -> new EventNotFoundException(EVENT_NOT_FOUND + id)
+            );
             eventRepository.deleteEvent(id);
         } catch (RuntimeException e) {
         LOGGER.warning(DELETE_EVENT_FAILED.formatted(id, e.getMessage()));

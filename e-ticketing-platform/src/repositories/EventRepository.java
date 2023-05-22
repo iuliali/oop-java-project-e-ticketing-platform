@@ -93,6 +93,9 @@ public class EventRepository {
         } else if (event instanceof StandUp) {
             queryAdditional = INSERT_STANDUP;
             additionalColumn = ((StandUp) event).getComedianName();
+        } else if (event instanceof Play) {
+            queryAdditional = INSERT_PLAY;
+            additionalColumn = ((Play) event).getSpecialGuest();
         }
         try (PreparedStatement statement = databaseConfiguration.getConnection()
                 .prepareStatement(queryAdditional)) {
@@ -163,6 +166,19 @@ public class EventRepository {
                 ResultSet resultSet = statement.executeQuery();
                 if(resultSet.next()) {
                     newEvent = new StandUp (event, resultSet.getString("comedianName"));
+                }
+            } catch (SQLException e) {
+                LOGGER.warning(e.getMessage());
+                throw new DBException(DB_EXCEPTION, EventRepository.class);
+            }
+        } else if(event.getEventType() == EventType.PLAY) {
+            try (PreparedStatement statement = databaseConfiguration
+                    .getConnection()
+                    .prepareStatement(QUERY_PLAYS_BY_EVENT_ID)) {
+                statement.setInt(1, event.getId());
+                ResultSet resultSet = statement.executeQuery();
+                if(resultSet.next()) {
+                    newEvent = new Play (event, resultSet.getString("specialGuest"));
                 }
             } catch (SQLException e) {
                 LOGGER.warning(e.getMessage());

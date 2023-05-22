@@ -3,9 +3,11 @@ import dtos.EventDto;
 import dtos.LocationDto;
 import dtos.UserDto;
 import enums.EventType;
+import enums.LocationType;
 import enums.TicketCategory;
 import models.Event;
 import models.Location;
+import models.Play;
 import models.StandUp;
 import services.EventService;
 import services.LocationService;
@@ -81,7 +83,17 @@ public class Main {
 //        System.out.println(ticketService.getTickets());
 //
 //        userService.returnTicket("andreea", 3);
-        System.out.println(ticketService.searchAvailableTicketsPerEvent("primavara"));
+//        System.out.println(ticketService.searchAvailableTicketsPerEvent("primavara"));
+//        locationService.addLocation(new Location("TNB","Regina Elisabeta", 50, LocationType.SEAT));
+//        Location location = locationService.getLocationById(31).get();
+
+//        eventService.addEvent(new Play(new Event("Orchestra Titanic", location,
+//                LocalDateTime.now().plusDays(30),
+//                LocalDateTime.now().plusDays(30).plusHours(2),
+//                EventType.PLAY,
+//                Map.of(TicketCategory.GENERAL_ENTRANCE, 45, TicketCategory.VIP,5)), "Andrei Andreescu"));
+
+//        eventService.deleteEvent(14);
 
 
 
