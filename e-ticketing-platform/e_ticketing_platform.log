@@ -1,20 +1,20 @@
-May 22, 2023 12:51:33 PM services.impl.LocationServiceImpl <init>
+May 22, 2023 1:06:27 PM services.impl.LocationServiceImpl <init>
 INFO: Location Service created.
-May 22, 2023 12:51:33 PM services.impl.EventServiceImpl <init>
+May 22, 2023 1:06:27 PM services.impl.EventServiceImpl <init>
 INFO: Event Service Created
-May 22, 2023 12:51:33 PM services.impl.TicketServiceImpl <init>
+May 22, 2023 1:06:27 PM services.impl.TicketServiceImpl <init>
 INFO: Ticket Service created;
-May 22, 2023 12:51:33 PM services.impl.UserServiceImpl <init>
+May 22, 2023 1:06:27 PM services.impl.UserServiceImpl <init>
 INFO: User Service created.
-May 22, 2023 12:51:33 PM services.impl.UserServiceImpl getUsers
+May 22, 2023 1:06:27 PM services.impl.UserServiceImpl getUsers
 INFO: User Service method getUsers() called
-May 22, 2023 12:51:33 PM services.impl.EventServiceImpl getEvents
+May 22, 2023 1:06:28 PM services.impl.EventServiceImpl getEvents
 INFO: Event Service getEvents called.
-May 22, 2023 12:51:33 PM services.impl.EventServiceImpl getEvents
+May 22, 2023 1:06:28 PM services.impl.EventServiceImpl getEvents
 INFO: Event Service getEvents called.
-May 22, 2023 12:51:33 PM services.impl.EventServiceImpl getEvents
+May 22, 2023 1:06:28 PM services.impl.EventServiceImpl getEvents
 INFO: Event Service getEvents called.
-May 22, 2023 12:51:33 PM services.impl.EventServiceImpl getEventsSorted
+May 22, 2023 1:06:28 PM services.impl.EventServiceImpl getEventsSorted
 INFO: Event Service getEvents called.
-May 22, 2023 12:51:33 PM services.impl.LocationServiceImpl getLocations
+May 22, 2023 1:06:28 PM services.impl.LocationServiceImpl getLocations
 INFO: Location Service method getLocations() called.
