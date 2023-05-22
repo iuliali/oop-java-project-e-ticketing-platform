@@ -7,6 +7,7 @@ import services.EventService;
 import services.LocationService;
 import validators.EventValidator;
 
+import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,7 +20,9 @@ public class EventServiceImpl implements EventService {
     public final LocationService locationService;
 
     public EventServiceImpl(LocationService locationService) {
+
         LOGGER.info(SERVICE_CREATED.formatted(this.getClass().getName()));
+
         this.locationService = locationService;
         this.eventRepository = new EventRepository(locationService.getLocations());
     }
