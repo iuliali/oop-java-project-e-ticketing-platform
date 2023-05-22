@@ -106,11 +106,21 @@ public class Event implements Comparable<Event> {
         this.endDate = endDate;
     }
 
+    public Event(Event other) {
+        this.id = other.id;
+        this.eventType = other.eventType;
+        this.name = other.name;
+        this.location = other.location;
+        this.startDate = other.startDate;
+        this.endDate = other.endDate;
+    }
+
 
 
     public Event(Integer id) {
         this.id =id;
     }
+
 
     public String getName() {
         return name;

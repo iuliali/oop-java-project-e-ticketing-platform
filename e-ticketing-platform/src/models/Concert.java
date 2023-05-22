@@ -17,7 +17,10 @@ public class Concert extends Event{
         super(name, location, startDate, endDate, eventType, configurations);
         this.artistName = artistName;
     }
-
+    public Concert( Event event, String artistName) {
+        super(event);
+        this.artistName = artistName;
+    }
     public Concert(Integer id,
                    String name,
                    Location location,

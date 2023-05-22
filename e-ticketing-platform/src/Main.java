@@ -36,7 +36,11 @@ public class Main {
         List<MapEventTicketsConfiguration> configs = new ArrayList<>();
         configs.add(new MapEventTicketsConfiguration(TicketCategory.GENERAL_ENTRANCE, 800));
 
-        userService.buyTicket("iulialia", eventService.getEventById(8).get(),TicketCategory.GENERAL_ENTRANCE);
+//        eventService.addEvent(new Concert("Primavara incepe cu tine", "Holograf",
+//                locationService.getLocationById(1).get(), LocalDateTime.now(), LocalDateTime.now().plusHours(6),
+//                EventType.CONCERT,configs));
+        System.out.println(eventService.getEvents(true));
+
 
     }
 }

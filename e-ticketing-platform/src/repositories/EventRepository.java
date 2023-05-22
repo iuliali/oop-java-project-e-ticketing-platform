@@ -50,6 +50,7 @@ public class EventRepository {
                         LocalDateTime.of(resultSet.getDate("startDate").toLocalDate(), LocalTime.MIDNIGHT),
                         LocalDateTime.of(resultSet.getDate("endDate").toLocalDate(), LocalTime.MIDNIGHT),
                         EventType.valueOf(resultSet.getString("eventType")));
+                event = getDerivedClasses(event);
                 events.add(event);
             }
 
@@ -133,9 +134,43 @@ public class EventRepository {
             throw new DBException(DB_EXCEPTION, EventRepository.class);
         }
         if (event != null) {
+            event = getDerivedClasses(event);
             event.setTicketsAvailable(getAllMapsByEventId(event.getId()));
         }
         return Optional.ofNullable(event);
+    }
+
+    private Event getDerivedClasses(Event event) {
+        Event newEvent = new Event(event);
+        if (event.getEventType() == EventType.CONCERT) {
+            try (PreparedStatement statement = databaseConfiguration
+                    .getConnection()
+                    .prepareStatement(QUERY_CONCERT_BY_EVENT_ID)) {
+                statement.setInt(1, event.getId());
+                ResultSet resultSet = statement.executeQuery();
+                if(resultSet.next()) {
+                    newEvent = new Concert (event, resultSet.getString("artistName"));
+                }
+            } catch (SQLException e) {
+                LOGGER.warning(e.getMessage());
+                throw new DBException(DB_EXCEPTION, EventRepository.class);
+            }
+        } else if(event.getEventType() == EventType.STAND_UP) {
+            try (PreparedStatement statement = databaseConfiguration
+                    .getConnection()
+                    .prepareStatement(QUERY_STANDUP_BY_EVENT_ID)) {
+                statement.setInt(1, event.getId());
+                ResultSet resultSet = statement.executeQuery();
+                if(resultSet.next()) {
+                    newEvent = new StandUp (event, resultSet.getString("comedianName"));
+                }
+            } catch (SQLException e) {
+                LOGGER.warning(e.getMessage());
+                throw new DBException(DB_EXCEPTION, EventRepository.class);
+            }
+        }
+
+        return newEvent;
     }
 
     public void deleteEvent(Integer id) {

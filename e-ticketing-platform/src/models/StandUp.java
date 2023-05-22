@@ -25,6 +25,11 @@ public class StandUp extends Event {
         this.comedianName = comedianName;
     }
 
+    public StandUp(Event event, String comedianName) {
+        super(event);
+        this.comedianName = comedianName;
+    }
+
     public String getComedianName() {
         return comedianName;
     }

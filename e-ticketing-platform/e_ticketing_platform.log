@@ -1,22 +1,12 @@
-May 22, 2023 11:59:16 AM services.impl.LocationServiceImpl <init>
+May 22, 2023 12:21:31 PM services.impl.LocationServiceImpl <init>
 INFO: Location Service created.
-May 22, 2023 11:59:16 AM services.impl.EventServiceImpl <init>
+May 22, 2023 12:21:31 PM services.impl.EventServiceImpl <init>
 INFO: Event Service Created
-May 22, 2023 11:59:16 AM services.impl.TicketServiceImpl <init>
+May 22, 2023 12:21:31 PM services.impl.TicketServiceImpl <init>
 INFO: Ticket Service created;
-May 22, 2023 11:59:16 AM services.impl.UserServiceImpl <init>
+May 22, 2023 12:21:31 PM services.impl.UserServiceImpl <init>
 INFO: User Service created.
-May 22, 2023 11:59:16 AM services.impl.EventServiceImpl getEventById
-INFO: Event Service getEventById(8) called.
-May 22, 2023 11:59:16 AM services.impl.UserServiceImpl getUserByUserName
-INFO: User Service method getUserByUserName("iulialia") called
-May 22, 2023 11:59:16 AM services.impl.TicketServiceImpl getAvailableTicket
-INFO: Ticket Service method getAvailableTicket() called.
-May 22, 2023 11:59:16 AM services.impl.EventServiceImpl getEvents
+May 22, 2023 12:21:31 PM services.impl.EventServiceImpl getEvents
 INFO: Event Service getEvents called.
-May 22, 2023 11:59:16 AM services.impl.UserServiceImpl buyTicket
-INFO: Ticket for event 
-	name=Primavara incepe cu tine, 
-	location=Beraria H, 
-	start date=2023-05-22 hours: 00:00, 
- id :1 was successfully bought.
+May 22, 2023 12:21:31 PM services.impl.EventServiceImpl getEventsSorted
+INFO: Event Service getEvents called.
