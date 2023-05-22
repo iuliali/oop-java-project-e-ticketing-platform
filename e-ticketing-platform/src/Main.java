@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static constants.Constants.USERNAME_NOT_FOUND;
-
 public class Main {
     public static void main(String[] args)
     {

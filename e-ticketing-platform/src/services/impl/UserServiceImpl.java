@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
         ticketService.addTicket(ticket);
         addBoughtTicketUser(user, ticket);
         LOGGER.info(BUY_TICKET_SUCCESS
-                .formatted( ticket.getEvent(), ticket.getId() ));
+                .formatted( ticket.getEvent().getName(), ticket.getId() ));
         return Optional.of(ticket);
 
     }

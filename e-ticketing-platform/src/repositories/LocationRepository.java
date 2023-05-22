@@ -1,6 +1,7 @@
 package repositories;
 
 import dtos.LocationDto;
+import exceptions.LocationNotFoundException;
 import exceptions.UserIdNotFoundException;
 import models.Location;
 import models.User;
@@ -9,6 +10,7 @@ import services.impl.LocationCSVReaderWriterServiceImpl;
 import java.util.List;
 import java.util.Optional;
 
+import static constants.Constants.LOCATION_NOT_FOUND;
 import static constants.Constants.USER_ID_NOT_FOUND;
 
 public class LocationRepository {
@@ -27,8 +29,7 @@ public class LocationRepository {
     }
 
     public List<Location> getLocations() {
-        //TODO:ADD EXCEPTION
-        return locations;
+        return this.csvReaderWriterService.read();
     }
 
     public void addLocation(Location location) {
@@ -37,12 +38,12 @@ public class LocationRepository {
     }
 
     public Optional<Location> getLocationById(Integer id) {
-        return this.locations.stream().filter(l-> l.getId() == id).findFirst();
+        return csvReaderWriterService.read().stream().filter(l-> l.getId() == id).findFirst();
     }
 
     public void editLocation(Integer id, LocationDto editedLocation) {
        Location location = getLocationById(id).orElseThrow(
-               //todo
+               () -> new LocationNotFoundException(LOCATION_NOT_FOUND.formatted(id))
        );
         updateLocation(location, editedLocation);
         csvReaderWriterService.writeAll(this.locations);
@@ -59,7 +60,14 @@ public class LocationRepository {
     }
 
     public void deleteLocation(Integer id) {
-        //also should delete -> all events at the location, and all tickets sold for users
-        //TODO
+        /**
+         * Only deletes LOCATION. In order to be okay events and tickets for events at that location should be deleted.
+         */
+        Location location = getLocationById(id).orElseThrow(
+                () -> new LocationNotFoundException(LOCATION_NOT_FOUND.formatted(id))
+        );
+        locations.remove(location);
+        csvReaderWriterService.writeAll(locations);
+
     }
 }

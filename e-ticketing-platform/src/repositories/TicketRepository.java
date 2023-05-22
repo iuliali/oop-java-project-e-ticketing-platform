@@ -46,7 +46,7 @@ public class TicketRepository {
     }
 
     public Optional<TicketEvent> getTicketById(Integer id) {
-        return this.soldTickets.stream().filter(t -> t.getId() == id).findFirst();
+        return csvReaderWriterService.read().stream().filter(t -> t.getId() == id).findFirst();
     }
 
     public void deleteTicket(Integer id) {

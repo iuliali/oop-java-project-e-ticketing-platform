@@ -25,6 +25,7 @@ public class Constants {
     public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
     public static final String CSV_FILE_NAME = "e_ticketing_platform.csv";
     public static final String LOGS_FILE_NAME = "e_ticketing_platform.log";
+    public static final String LOCATION_NOT_FOUND = "Location was not found. Id: %d.";
 
 
     public static final String DB_INFO_FILE_NAME = "db_info.csv";

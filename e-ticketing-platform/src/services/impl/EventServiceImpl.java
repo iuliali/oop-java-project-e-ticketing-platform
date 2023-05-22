@@ -7,7 +7,6 @@ import services.EventService;
 import services.LocationService;
 import validators.EventValidator;
 
-import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.List;
 
