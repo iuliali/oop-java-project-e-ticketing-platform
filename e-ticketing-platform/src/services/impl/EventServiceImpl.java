@@ -12,24 +12,27 @@ import services.EventService;
 import services.LocationService;
 import validators.EventValidator;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static constants.Constants.*;
+import static constants.LogConstants.*;
 
 public class EventServiceImpl implements EventService {
     public final EventRepository eventRepository;
     public final LocationService locationService;
 
     public EventServiceImpl(LocationService locationService, DatabaseConfiguration databaseConfiguration) {
-        LOGGER.info("Event Service Created");
+        LOGGER.info(SERVICE_CREATED.formatted(this.getClass().getName()));
         this.locationService = locationService;
         this.eventRepository = new EventRepository(databaseConfiguration);
     }
 
     @Override
     public void addEvent(Event event) {
+        LOGGER.info(ADD_EVENT);
         try {
             if (!EventValidator.validateTicketsToSell(event.getLocation(), event.getTicketsAvailable())) {
                 throw new NoTicketsExceedsCapacityException(NO_TICKETS_EXCEEDS_LOCATION_CAPACITY);
@@ -37,16 +40,15 @@ public class EventServiceImpl implements EventService {
             eventRepository.addEvent(event);
 
         } catch (NoTicketsExceedsCapacityException exception) {
-            LOGGER.warning("Adding Event "+ event.getName() + " failed . An exception occured: "
-                    + exception.getMessage());
+            LOGGER.warning(ADD_EVENT_FAILED.formatted(event.getName(), exception.getMessage()));
             return;
         }
-        LOGGER.info("Adding Event "+ event.getName() + " was successfully done");
+        LOGGER.info(ADD_EVENT_SUCCESS.formatted(event.getName(), event.getId()));
     }
 
     @Override
     public List<Event> getEvents(boolean sorted) {
-        LOGGER.info("Event Service getEvents called.");
+        LOGGER.info(GET_EVENTS.formatted(String.valueOf(sorted)));
         if (sorted) {
             return getEventsSorted();
         } else {
@@ -56,62 +58,74 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void deleteEvent(Integer id) {
-        LOGGER.info("Event Service deleteEvent(%d) called.".formatted(id));
+        LOGGER.info(DELETE_EVENT.formatted(id));
         try {
             eventRepository.deleteEvent(id);
         } catch (RuntimeException e) {
-        LOGGER.warning("Deleting Event with id=" + id + " failed due to an exception :  " + e.getMessage());
+        LOGGER.warning(DELETE_EVENT_FAILED.formatted(id, e.getMessage()));
         return;
         }
-        LOGGER.info("Deleting Event with id="+ id + " was successfully done");
+        LOGGER.info(DELETE_EVENT_SUCCESS.formatted(id));
     }
 
     @Override
     public void editEvent(Integer id, EventDto editedDto) {
-        LOGGER.info("Event Service editEvent(%d) called.".formatted(id));
+        LOGGER.info(EDIT_EVENT.formatted(id));
         try{
-            validateNewLocation(editedDto.getLocationId());
+            validateNewLocation(editedDto.getLocationId(), id);
             eventRepository.editEvent(id,editedDto);
 
         } catch (RuntimeException e) {
-            LOGGER.warning("Editing Event with" + id + " failed due to an exception :  " + e.getMessage());
-            return;
+            LOGGER.warning(e.getMessage());
         }
-        LOGGER.info("Editing Event with id ="+ id + " was successfully done");
     }
 
     @Override
     public Optional<Event> getEventById(Integer id) {
-        LOGGER.info("Event Service getEventById(%d) called.".formatted(id));
+        LOGGER.info(GET_EVENT_BY_ID.formatted(id));
         try {
             return eventRepository.getEventById(id);
 
         } catch (RuntimeException e) {
-            LOGGER.warning("Getting event by id failed" + e.getMessage());
+            LOGGER.warning(e.getMessage());
         }
         return Optional.empty();
     }
 
-    private void validateNewLocation(Integer locationId) {
+    @Override
+    public List<Event> getUpcomingEvents() {
+        return getEventsSorted().stream().filter(e -> e.getStartDate().isAfter(LocalDateTime.now())).toList();
+    }
+
+    @Override
+    public Optional<Event> getEventByName(String name) {
+        return eventRepository.getEventByName(name);
+    }
+
+    private void validateNewLocation(Integer locationId, Integer eventId) {
         if (locationId == null) {
             return;
         }
         Optional<Location> location =  locationService.getLocationById(locationId);
-        if (location.isPresent()) {
-            LOGGER.info("Location exists, it can be changed for requested event.");
-        } else {
-            LOGGER.warning("Event cannot be updated with an nonexistent location.");
+
+        if (location.isEmpty()) {
             throw new NoLocationWithRequestedIdFoundException(NO_LOCATION_WITH_ID_REQUESTED_FOUND, locationId);
+        } else {
+            Event event = eventRepository.getEventById(eventId).orElseThrow(
+                    () -> new EventNotFoundException(EVENT_NOT_FOUND + eventId)
+            );
+            EventValidator.validateNewLocation(location.get(), event.getLocation());
         }
-        //todo validate no tickets
     }
 
 
     @Override
     public List<Event> getEventsSorted() {
-        LOGGER.info("Event Service getEvents called.");
+        LOGGER.info(GET_EVENTS_SORTED);
         var events = eventRepository.getEvents();
         Collections.sort(events);
         return events;
     }
+
+
 }

@@ -1,7 +1,7 @@
 package enums;
 
 public enum EventType {
-    CONCERT("Concert", 0), STAND_UP("Stand-up", 1);
+    CONCERT("Concert", 0), STAND_UP("Stand-up", 1), FESTIVAL("Festival", 2);
 
     private final String name;
     private final int value;

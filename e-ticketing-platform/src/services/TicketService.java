@@ -5,6 +5,7 @@ import models.Event;
 import models.TicketEvent;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface TicketService {
@@ -17,4 +18,5 @@ public interface TicketService {
     List<TicketEvent> getSoldTicketsByUserId(Integer userId);
 
     void deleteTicket(Integer id);
+    Map<TicketCategory, Integer> searchAvailableTicketsPerEvent(String eventName);
 }

@@ -49,7 +49,7 @@ public class UserRepository {
             statement.setString(1, user.getUserName());
             statement.setTimestamp(2, Timestamp.valueOf(user.getBirthDate()));
             statement.setString(3, user.getFirstName());
-            statement.setString(4, user.getFirstName());
+            statement.setString(4, user.getLastName());
             statement.execute();
 
         } catch (SQLException e) {

@@ -15,5 +15,7 @@ public interface EventService {
     void deleteEvent(Integer id);
     void editEvent(Integer id, EventDto editedDto);
    Optional<Event> getEventById(Integer id);
+   List<Event> getUpcomingEvents();
+   Optional<Event> getEventByName(String name) ;
 
     }

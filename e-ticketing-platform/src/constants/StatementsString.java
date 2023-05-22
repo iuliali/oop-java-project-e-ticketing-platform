@@ -35,6 +35,8 @@ public class StatementsString {
             "VALUES(?,?);";
 
     public static final String QUERY_EVENT_GET_BY_ID = "SELECT * FROM events e, locations l WHERE e.id = ? AND e.locationId = l.id";
+    public static final String QUERY_EVENT_GET_BY_NAME = "SELECT * FROM events e, locations l WHERE UPPER(e.name) LIKE ? AND e.locationId = l.id";
+
     public static final String QUERY_CONCERT_BY_EVENT_ID = "SELECT * FROM concerts c WHERE c.eventId = ?";
     public static final String QUERY_STANDUP_BY_EVENT_ID = "SELECT * FROM standups s WHERE s.eventId = ?";
 
@@ -65,6 +67,7 @@ public class StatementsString {
             "AND u.id = t.userId";
 
     public static final String DELETE_TICKET_BY_ID = "DELETE FROM tickets t WHERE t.id = ?";
+
 
 
 

@@ -17,6 +17,8 @@ public class Constants {
     public static final String NO_TICKETS_EXCEEDS_LOCATION_CAPACITY = "You cannot sell more tickets than location capacity!";
     public static final String EVENT_LIST_EMPTY = "No Event registered!";
     public static final String EVENT_NOT_FOUND = "Event was not found, id searched for:";
+    public static final String EVENT_NOT_FOUND_NAME = "Event was not found, event name searched for:";
+
 
     public static final String USERNAME_ALREADY_EXISTS = "An user with same username is already registered!";
     public static final String NO_LOCATION_WITH_ID_REQUESTED_FOUND = "There is no location with the id provided: ";
@@ -33,5 +35,5 @@ public class Constants {
 
     public static final String TICKET_FILE_NAME = "C:\\Users\\talpa\\Desktop\\info\\sem_2\\java\\oop-java-project-e-ticketing-platform\\e-ticketing-platform\\src\\resources\\persistence\\csv\\ticket.csv";
     public static final String USER_FILE_NAME = "C:\\Users\\talpa\\Desktop\\info\\sem_2\\java\\oop-java-project-e-ticketing-platform\\e-ticketing-platform\\src\\resources\\persistence\\csv\\user.csv";
-
+    public static final String NEW_LOCATION_CANNOT_BE_ADDED = "New Location should not have a smaller capacity than previous one!";
 }

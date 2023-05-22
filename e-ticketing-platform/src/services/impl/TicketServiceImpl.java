@@ -3,6 +3,7 @@ package services.impl;
 import dbconfig.DatabaseConfiguration;
 import enums.TicketCategory;
 import exceptions.EventDoesNotHaveRequestedCategoryException;
+import exceptions.EventNotFoundException;
 import exceptions.TicketsAlreadySoldOutException;
 import models.Event;
 import models.MapEventTicketsConfiguration;
@@ -11,11 +12,11 @@ import repositories.TicketRepository;
 import services.EventService;
 import services.TicketService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static constants.Constants.*;
+import static constants.LogConstants.*;
 
 public class TicketServiceImpl implements TicketService {
 
@@ -23,7 +24,7 @@ public class TicketServiceImpl implements TicketService {
     public final EventService eventService;
 
     public TicketServiceImpl(EventService eventService, DatabaseConfiguration databaseConfiguration) {
-        LOGGER.info("Ticket Service created;");
+        LOGGER.info(SERVICE_CREATED.formatted(this.getClass().getName()));
         this.eventService = eventService;
         this.ticketRepository = new TicketRepository(databaseConfiguration);
     }
@@ -64,13 +65,14 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public void addTicket(TicketEvent ticket) {
+        LOGGER.info(ADD_TICKET);
         ticketRepository.addTicket(ticket);
     }
 
 
     @Override
     public TicketEvent getAvailableTicket(Event event, TicketCategory category) {
-        LOGGER.info("Ticket Service method getAvailableTicket() called.");
+        LOGGER.info(TICKET_GET_AVAILABLE_TICKET_CALL);
         if (event.getTicketsAvailable().stream().noneMatch(m -> m.getCategory() == category)) {
             throw new EventDoesNotHaveRequestedCategoryException(EVENT_DOES_NOT_HAVE_CATEGORY);
         }
@@ -78,8 +80,6 @@ public class TicketServiceImpl implements TicketService {
                 .map(MapEventTicketsConfiguration::getQuantity).reduce(0, Integer::sum);
         Integer noSoldTickets = getNoSoldTicketsByEventAndTicketCategory(event, category);
         if (totalNoTickets - noSoldTickets <= 0) {
-            LOGGER.info("Tickets already sold out for event: " + event.getName());
-
             throw new TicketsAlreadySoldOutException(TICKETS_ALREADY_SOLD);
         } else {
             return new TicketEvent(event, category);
@@ -89,7 +89,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<TicketEvent> getSoldTicketsByEventId(Integer eventId) {
-        return getTickets().stream().filter(t -> t.getUser().getId() == eventId).toList();
+        return getTickets().stream().filter(t -> t.getEvent().getId() == eventId).toList();
     }
 
     @Override
@@ -99,7 +99,36 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public void deleteTicket(Integer id) {
-        ticketRepository.deleteTicket(id);
+        LOGGER.info(TICKET_DELETE_TICKET_CALL.formatted(id));
+        try {
+            ticketRepository.deleteTicket(id);
+        } catch (RuntimeException e) {
+            LOGGER.warning(DELETE_TICKET_FAILED.formatted(id, e.getMessage()));
+        }
+    }
+
+    @Override
+    public Map<TicketCategory, Integer> searchAvailableTicketsPerEvent(String eventName) {
+        Map<TicketCategory, Integer> map = new HashMap<>();
+        try {
+            Event event = eventService.getEventByName(eventName).orElseThrow(
+                    () -> new EventNotFoundException(EVENT_NOT_FOUND_NAME + eventName)
+            );
+            List<TicketEvent> ticketsSold = getSoldTicketsByEventId(event.getId());
+            map = event.getTicketsAvailable()
+                    .stream()
+                    .collect(
+                            Collectors.toMap(
+                                    MapEventTicketsConfiguration::getCategory,
+                            c-> Math.toIntExact(c.getQuantity() -
+                                    ticketsSold
+                                            .stream()
+                                            .filter(t -> t.getTicketCategory() == c.getCategory()).count())));
+
+        } catch (RuntimeException e) {
+            LOGGER.warning(e.getMessage());
+        }
+        return map;
     }
 
     private Integer getNoSoldTicketsByEventAndTicketCategory(Event event, TicketCategory category) {

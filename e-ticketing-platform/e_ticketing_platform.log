@@ -1,22 +1,24 @@
-May 22, 2023 2:19:08 PM services.impl.LocationServiceImpl <init>
-INFO: Location Service created.
-May 22, 2023 2:19:08 PM services.impl.EventServiceImpl <init>
-INFO: Event Service Created
-May 22, 2023 2:19:08 PM services.impl.TicketServiceImpl <init>
-INFO: Ticket Service created;
-May 22, 2023 2:19:08 PM services.impl.UserServiceImpl <init>
-INFO: User Service created.
-May 22, 2023 2:19:08 PM services.impl.UserServiceImpl getUsers
+May 22, 2023 6:44:04 PM services.impl.LocationServiceImpl <init>
+INFO: services.impl.LocationServiceImpl created.
+May 22, 2023 6:44:04 PM services.impl.EventServiceImpl <init>
+INFO: services.impl.EventServiceImpl created.
+May 22, 2023 6:44:04 PM services.impl.TicketServiceImpl <init>
+INFO: services.impl.TicketServiceImpl created.
+May 22, 2023 6:44:04 PM services.impl.UserServiceImpl <init>
+INFO: services.impl.UserServiceImpl created.
+May 22, 2023 6:44:04 PM services.impl.UserServiceImpl getUsers
 INFO: User Service method getUsers() called
-May 22, 2023 2:19:08 PM services.impl.EventServiceImpl getEvents
-INFO: Event Service getEvents called.
-May 22, 2023 2:19:08 PM services.impl.EventServiceImpl getEvents
-INFO: Event Service getEvents called.
-May 22, 2023 2:19:08 PM services.impl.EventServiceImpl getEvents
-INFO: Event Service getEvents called.
-May 22, 2023 2:19:08 PM services.impl.EventServiceImpl getEvents
-INFO: Event Service getEvents called.
-May 22, 2023 2:19:08 PM services.impl.EventServiceImpl getEventsSorted
-INFO: Event Service getEvents called.
-May 22, 2023 2:19:08 PM services.impl.LocationServiceImpl getLocations
+May 22, 2023 6:44:04 PM services.impl.EventServiceImpl getEvents
+INFO: Event Service getEvents() called with parameter sorted = false
+May 22, 2023 6:44:04 PM services.impl.EventServiceImpl getEvents
+INFO: Event Service getEvents() called with parameter sorted = false
+May 22, 2023 6:44:04 PM services.impl.EventServiceImpl getEvents
+INFO: Event Service getEvents() called with parameter sorted = false
+May 22, 2023 6:44:04 PM services.impl.EventServiceImpl getEvents
+INFO: Event Service getEvents() called with parameter sorted = true
+May 22, 2023 6:44:04 PM services.impl.EventServiceImpl getEventsSorted
+INFO: Event Service getEventsSorted() called.
+May 22, 2023 6:44:04 PM services.impl.LocationServiceImpl getLocations
 INFO: Location Service method getLocations() called.
+May 22, 2023 6:44:04 PM services.impl.EventServiceImpl getEvents
+INFO: Event Service getEvents() called with parameter sorted = false

@@ -22,4 +22,6 @@ public interface UserService {
     public void editUser(Integer id, UserDto editedUser);
 
     public void deleteUser(Integer id);
+
+    public List<TicketEvent> getAllTicketsByUser(String username);
 }

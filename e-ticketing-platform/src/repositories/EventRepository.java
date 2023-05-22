@@ -188,7 +188,7 @@ public class EventRepository {
     public void editEvent(Integer id, EventDto editedDto) {
 
         Event event = getEventById(id).orElseThrow(
-                () -> new EventNotFoundException(EVENT_NOT_FOUND,id)
+                () -> new EventNotFoundException(EVENT_NOT_FOUND + id)
         );
         updateEvent(event, editedDto);
 
@@ -219,5 +219,37 @@ public class EventRepository {
         if (editedEvent.getEndDate() != null) {
             event.setEndDate(editedEvent.getEndDate());
         }
+    }
+
+    public Optional<Event> getEventByName(String name) {
+        Event event = null;
+        try (PreparedStatement statement = databaseConfiguration.getConnection()
+                .prepareStatement(QUERY_EVENT_GET_BY_NAME)) {
+            statement.setString(1, "%" + name.toUpperCase() +"%");
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()) {
+                event = new Event (
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        new Location(
+                                resultSet.getInt(7),
+                                resultSet.getString(8),
+                                resultSet.getString(9),
+                                resultSet.getInt(10),
+                                LocationType.valueOf(resultSet.getString(11))
+                        ),
+                        resultSet.getTimestamp("startDate").toLocalDateTime(),
+                        resultSet.getTimestamp("endDate").toLocalDateTime(),
+                        EventType.valueOf(resultSet.getString("eventType")));
+            }
+        } catch (SQLException e) {
+            LOGGER.warning(e.getMessage());
+            throw new DBException(DB_EXCEPTION, EventRepository.class);
+        }
+        if (event != null) {
+            event = getDerivedClasses(event);
+            event.setTicketsAvailable(getAllMapsByEventId(event.getId()));
+        }
+        return Optional.ofNullable(event);
     }
 }

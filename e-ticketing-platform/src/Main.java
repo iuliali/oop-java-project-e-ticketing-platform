@@ -1,4 +1,12 @@
 import dbconfig.DatabaseConfiguration;
+import dtos.EventDto;
+import dtos.LocationDto;
+import dtos.UserDto;
+import enums.EventType;
+import enums.TicketCategory;
+import models.Event;
+import models.Location;
+import models.StandUp;
 import services.EventService;
 import services.LocationService;
 import services.TicketService;
@@ -7,6 +15,9 @@ import services.impl.EventServiceImpl;
 import services.impl.LocationServiceImpl;
 import services.impl.TicketServiceImpl;
 import services.impl.UserServiceImpl;
+
+import java.time.LocalDateTime;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args)
@@ -38,20 +49,18 @@ public class Main {
 //        locationService.addLocation(areneleRomane);
 //        locationService.addLocation(clubBlack);
 
+
+
+//
+//        eventService.editEvent(11, new EventDto("Primavara incepe cu noi",
+//                null, null, 29)); // should throw an error
+//        locationService.editLocation(1,
+//                new LocationDto("Hard Rock Cafee", "Kiseleff 4"));
+//        userService.editUser(3, new UserDto(null,null, null, "Marinescu"));
+////        System.out.println(eventService.getEventsSorted());
 //        Location location = locationService.getLocationById(30).get();
-
-
-//        eventService.addEvent( new StandUp (
-//                "Voi ce mai faceti ?", "Micutzu",  location,
-//                LocalDateTime.now().plusDays(20).plusHours(2),
-//                LocalDateTime.now().plusDays(20).plusHours(6),
-//                EventType.STAND_UP, Map.of(TicketCategory.GENERAL_ENTRANCE, 30)
-//        ));
-
-//        System.out.println(eventService.getEventsSorted());
-
-
-//        eventService.addEvent( new StandUp (
+//
+//        eventService.addEvent( new StandUp(
 //                "Povesti ", "Toma",  location,
 //                LocalDateTime.now().plusDays(20).plusHours(2),
 //                LocalDateTime.now().plusDays(20).plusHours(6),
@@ -59,9 +68,9 @@ public class Main {
 //        )); // should throw an error and not add the event
 //
 //        System.out.println(eventService.getEventsSorted());
-
+//
 //        Event event = eventService.getEventById(11).get();
-
+//
 //        userService.registerNewUser("alina", "Alina", "Georgescu",
 //                LocalDateTime.now().minusYears(20).minusMonths(5));
 //        System.out.println(userService.getUsers());
@@ -72,6 +81,7 @@ public class Main {
 //        System.out.println(ticketService.getTickets());
 //
 //        userService.returnTicket("andreea", 3);
+        System.out.println(ticketService.searchAvailableTicketsPerEvent("primavara"));
 
 
 
