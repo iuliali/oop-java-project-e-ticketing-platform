@@ -1,6 +1,8 @@
 package models;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class User {
         return "User {\n" +
                 "\tusername: " + userName + ',' +'\n' +
                 "\tbirthDate: " + birthDate.toLocalDate() +  ',' +'\n' +
+                "\tage: " + Period.between(birthDate.toLocalDate(), LocalDate.now()).getYears() +  ',' +'\n' +
                 "\tfirstName: " + firstName + ',' +'\n' +
                 "\tlastName: " + lastName+ ',' +'\n' +
                 "\tnumber of tickets bought:" + boughtTickets.size() + ',' +'\n' +

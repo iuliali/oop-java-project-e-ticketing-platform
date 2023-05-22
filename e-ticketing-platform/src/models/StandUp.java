@@ -1,9 +1,11 @@
 package models;
 
 import enums.EventType;
+import enums.TicketCategory;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public class StandUp extends Event {
     String comedianName;
@@ -19,6 +21,17 @@ public class StandUp extends Event {
         this.comedianName = comedianName;
     }
 
+    public StandUp(String name,
+                   String comedianName,
+                   Location location,
+                   LocalDateTime startDate,
+                   LocalDateTime endDate,
+                   EventType eventType,
+                   Map<TicketCategory, Integer> configurations) {
+        super(name, location, startDate, endDate, eventType, configurations);
+        this.comedianName = comedianName;
+    }
+
     public StandUp(Integer id, String name, Location location,
                    LocalDateTime startDate, LocalDateTime endDate, EventType eventType, String comedianName) {
         super(id, name, location, startDate, endDate, eventType);
@@ -30,6 +43,7 @@ public class StandUp extends Event {
         this.comedianName = comedianName;
     }
 
+
     public String getComedianName() {
         return comedianName;
     }
@@ -40,9 +54,9 @@ public class StandUp extends Event {
 
     @Override
     public String toString() {
-        return "StandUp{" +
+        return "\nStandUp{" +
                 super.toString() +
-                "comedianName='" + comedianName + '\'' +
+                "\tcomedianName='" + comedianName + '\'' +
                 '}';
     }
 }

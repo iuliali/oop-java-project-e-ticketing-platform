@@ -47,8 +47,8 @@ public class EventRepository {
                                 resultSet.getInt(10),
                                 LocationType.valueOf(resultSet.getString(11))
                         ),
-                        LocalDateTime.of(resultSet.getDate("startDate").toLocalDate(), LocalTime.MIDNIGHT),
-                        LocalDateTime.of(resultSet.getDate("endDate").toLocalDate(), LocalTime.MIDNIGHT),
+                        resultSet.getTimestamp("startDate").toLocalDateTime(),
+                        resultSet.getTimestamp("endDate").toLocalDateTime(),
                         EventType.valueOf(resultSet.getString("eventType")));
                 event = getDerivedClasses(event);
                 events.add(event);
@@ -72,8 +72,8 @@ public class EventRepository {
                 Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, event.getName());
             statement.setInt(2, event.getLocation().getId());
-            statement.setDate(3, Date.valueOf(event.getStartDate().toLocalDate()));
-            statement.setDate(4, Date.valueOf(event.getEndDate().toLocalDate()));
+            statement.setTimestamp(3, Timestamp.valueOf(event.getStartDate()));
+            statement.setTimestamp(4, Timestamp.valueOf(event.getEndDate()));
             statement.setString(5, event.getEventType().name());
             statement.execute();
             ResultSet resultSet = statement.getGeneratedKeys();
@@ -125,8 +125,8 @@ public class EventRepository {
                                 resultSet.getInt(10),
                                 LocationType.valueOf(resultSet.getString(11))
                                 ),
-                       LocalDateTime.of(resultSet.getDate("startDate").toLocalDate(), LocalTime.MIDNIGHT),
-                        LocalDateTime.of(resultSet.getDate("endDate").toLocalDate(), LocalTime.MIDNIGHT),
+                       resultSet.getTimestamp("startDate").toLocalDateTime(),
+                        resultSet.getTimestamp("endDate").toLocalDateTime(),
                         EventType.valueOf(resultSet.getString("eventType")));
             }
         } catch (SQLException e) {
@@ -195,8 +195,8 @@ public class EventRepository {
         try (PreparedStatement statement = databaseConfiguration.getConnection().prepareStatement(UPDATE_EVENT_BY_ID)) {
             statement.setInt(5, id);
             statement.setString(1, event.getName());
-            statement.setDate(2, Date.valueOf(event.getStartDate().toLocalDate()));
-            statement.setDate(3, Date.valueOf(event.getEndDate().toLocalDate()));
+            statement.setTimestamp(2, Timestamp.valueOf(event.getStartDate()));
+            statement.setTimestamp(3, Timestamp.valueOf(event.getEndDate()));
             statement.setInt(4, editedDto.getLocationId());
 
             statement.executeUpdate();

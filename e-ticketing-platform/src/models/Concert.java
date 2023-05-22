@@ -1,9 +1,11 @@
 package models;
 
 import enums.EventType;
+import enums.TicketCategory;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public class Concert extends Event{
     private String artistName;
@@ -14,6 +16,17 @@ public class Concert extends Event{
                    LocalDateTime endDate,
                    EventType eventType,
                    List<MapEventTicketsConfiguration> configurations) {
+        super(name, location, startDate, endDate, eventType, configurations);
+        this.artistName = artistName;
+    }
+
+    public Concert(String name,
+                   String artistName,
+                   Location location,
+                   LocalDateTime startDate,
+                   LocalDateTime endDate,
+                   EventType eventType,
+                   Map<TicketCategory, Integer> configurations) {
         super(name, location, startDate, endDate, eventType, configurations);
         this.artistName = artistName;
     }
@@ -32,6 +45,8 @@ public class Concert extends Event{
         this.artistName = artistName;
     }
 
+
+
     public String getArtistName() {
         return artistName;
     }
@@ -42,9 +57,9 @@ public class Concert extends Event{
 
     @Override
     public String toString() {
-        return "Concert{" +
+        return "\nConcert{" +
                 super.toString() +
-                "artistName='" + artistName + '\'' +
+                "\tartistName='" + artistName + '\'' +
                 '}';
     }
 }

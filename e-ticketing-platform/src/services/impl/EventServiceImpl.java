@@ -39,6 +39,7 @@ public class EventServiceImpl implements EventService {
         } catch (NoTicketsExceedsCapacityException exception) {
             LOGGER.warning("Adding Event "+ event.getName() + " failed . An exception occured: "
                     + exception.getMessage());
+            return;
         }
         LOGGER.info("Adding Event "+ event.getName() + " was successfully done");
     }

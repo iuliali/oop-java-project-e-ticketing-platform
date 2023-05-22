@@ -50,6 +50,7 @@ public class MapEventTicketsConfiguration {
         this.eventId = eventId;
     }
 
+
     public TicketCategory getCategory() {
         return category;
     }

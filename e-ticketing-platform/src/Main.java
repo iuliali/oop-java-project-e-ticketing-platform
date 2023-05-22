@@ -26,6 +26,57 @@ public class Main {
         System.out.println(eventService.getEvents(true));
         System.out.println(locationService.getLocations());
 
+//        userService.registerNewUser("andreea", "Andreea", "Marinescu",
+//                LocalDateTime.now().minusYears(23));
+
+//        Location areneleRomane = new Location("Arenele Romane","Parcul Carol", 700,
+//                LocationType.STAND);
+//
+//        Location clubBlack = new Location("Club Black","Calea Victoriei", 30,
+//                LocationType.SEAT);
+//
+//        locationService.addLocation(areneleRomane);
+//        locationService.addLocation(clubBlack);
+
+//        Location location = locationService.getLocationById(30).get();
+
+
+//        eventService.addEvent( new StandUp (
+//                "Voi ce mai faceti ?", "Micutzu",  location,
+//                LocalDateTime.now().plusDays(20).plusHours(2),
+//                LocalDateTime.now().plusDays(20).plusHours(6),
+//                EventType.STAND_UP, Map.of(TicketCategory.GENERAL_ENTRANCE, 30)
+//        ));
+
+//        System.out.println(eventService.getEventsSorted());
+
+
+//        eventService.addEvent( new StandUp (
+//                "Povesti ", "Toma",  location,
+//                LocalDateTime.now().plusDays(20).plusHours(2),
+//                LocalDateTime.now().plusDays(20).plusHours(6),
+//                EventType.STAND_UP, Map.of(TicketCategory.GENERAL_ENTRANCE, 100)
+//        )); // should throw an error and not add the event
+//
+//        System.out.println(eventService.getEventsSorted());
+
+//        Event event = eventService.getEventById(11).get();
+
+//        userService.registerNewUser("alina", "Alina", "Georgescu",
+//                LocalDateTime.now().minusYears(20).minusMonths(5));
+//        System.out.println(userService.getUsers());
+//
+//
+//        userService.buyTicket("andreea", event, TicketCategory.GENERAL_ENTRANCE);
+//
+//        System.out.println(ticketService.getTickets());
+//
+//        userService.returnTicket("andreea", 3);
+
+
+
+
+
 
 
 

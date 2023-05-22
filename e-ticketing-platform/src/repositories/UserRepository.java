@@ -2,12 +2,14 @@ package repositories;
 
 import dbconfig.DatabaseConfiguration;
 import dtos.UserDto;
+import exceptions.DBException;
 import exceptions.UserIdNotFoundException;
 import models.User;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,14 +33,13 @@ public class UserRepository {
                 users.add(new User(
                         resultSet.getInt("id"),
                         resultSet.getString("userName"),
-                        LocalDateTime.of(resultSet.getDate("birthDate").toLocalDate(), LocalTime.MIDNIGHT),
+                        resultSet.getTimestamp("birthDate").toLocalDateTime(),
                         resultSet.getString("firstName"),
                         resultSet.getString("lastName")
                 ));
             }
         }catch (SQLException e) {
-            LOGGER.warning(e.getMessage());
-
+            throw new DBException(DB_EXCEPTION,UserRepository.class);
         }
         return users;
     }
@@ -46,13 +47,13 @@ public class UserRepository {
     public void addUser(User user) {
         try (PreparedStatement statement = databaseConfiguration.getConnection().prepareStatement(INSERT_USER)) {
             statement.setString(1, user.getUserName());
-            statement.setDate(2, Date.valueOf(user.getBirthDate().toLocalDate()));
+            statement.setTimestamp(2, Timestamp.valueOf(user.getBirthDate()));
             statement.setString(3, user.getFirstName());
             statement.setString(4, user.getFirstName());
             statement.execute();
 
         } catch (SQLException e) {
-            LOGGER.warning(e.getMessage());
+            throw new DBException(DB_EXCEPTION,UserRepository.class);
         }
     }
 
@@ -66,12 +67,12 @@ public class UserRepository {
                 user =  new User(
                         resultSet.getInt("id"),
                         resultSet.getString("userName"),
-                        LocalDateTime.of(resultSet.getDate("birthDate").toLocalDate(), LocalTime.MIDNIGHT),
+                        resultSet.getTimestamp("birthDate").toLocalDateTime(),
                         resultSet.getString("firstName"),
                         resultSet.getString("lastName"));
             }
         } catch (SQLException e) {
-            LOGGER.warning(e.getMessage());
+            throw new DBException(DB_EXCEPTION,UserRepository.class);
         }
         return Optional.ofNullable(user);
     }
@@ -81,18 +82,16 @@ public class UserRepository {
         try (PreparedStatement statement = databaseConfiguration.getConnection().prepareStatement(QUERY_USER_GET_BY_ID)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
-            while(resultSet.next()) {
+            if(resultSet.next()) {
                 user =  new User(
                         resultSet.getInt("id"),
                         resultSet.getString("userName"),
-                        LocalDateTime.of(resultSet.getDate("birthDate").toLocalDate(), LocalTime.MIDNIGHT),
+                        resultSet.getTimestamp("birthDate").toLocalDateTime(),
                         resultSet.getString("firstName"),
                         resultSet.getString("lastName"));
-                break;
             }
         } catch (SQLException e) {
-            LOGGER.warning(e.getMessage());
-
+            throw new DBException(DB_EXCEPTION,UserRepository.class);
         }
         return Optional.ofNullable(user);
     }
@@ -122,16 +121,13 @@ public class UserRepository {
         try (PreparedStatement statement = databaseConfiguration.getConnection().prepareStatement(UPDATE_USER_BY_ID)) {
             statement.setInt(5, id);
             statement.setString(1, user.getUserName());
-            statement.setDate(2, Date.valueOf(user.getBirthDate().toLocalDate()));
+            statement.setTimestamp(2, Timestamp.valueOf(user.getBirthDate()));
             statement.setString(3, user.getFirstName());
             statement.setString(4, user.getLastName());
-
-
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            LOGGER.warning(e.getMessage());
-
+            throw new DBException(DB_EXCEPTION,UserRepository.class);
         }
         LOGGER.info("User with id=%d updated successfully".formatted(id));
     }
@@ -142,8 +138,7 @@ public class UserRepository {
             statement.execute();
 
         } catch (SQLException e) {
-            LOGGER.warning(e.getMessage());
-
+            throw new DBException(DB_EXCEPTION,UserRepository.class);
         }
         LOGGER.info("User with id=%d deleted successfully".formatted(id));
     }

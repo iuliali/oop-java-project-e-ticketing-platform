@@ -1,9 +1,11 @@
 package models;
 
 import enums.EventType;
+import enums.TicketCategory;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import static constants.Constants.TIME_FORMATTER;
 
@@ -90,6 +92,23 @@ public class Event implements Comparable<Event> {
         this.startDate = startDate;
         this.endDate = endDate;
         this.ticketsAvailable = configurations;
+    }
+
+    public Event(String name,
+                 Location location,
+                 LocalDateTime startDate,
+                 LocalDateTime endDate,
+                 EventType eventType,
+                 Map<TicketCategory, Integer> configurations) {
+        this.id = ++idGenerator;
+        this.eventType = eventType;
+        this.name = name;
+        this.location = location;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.ticketsAvailable = configurations.entrySet()
+                .stream().map(e -> new MapEventTicketsConfiguration(e.getKey(), e.getValue()))
+                .toList();
     }
 
     public Event(Integer id, String name,

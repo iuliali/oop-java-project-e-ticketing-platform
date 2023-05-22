@@ -31,7 +31,7 @@ public class StatementsString {
 
     public static final String INSERT_CONCERT = "INSERT INTO concerts (eventId, artistName) " +
             "VALUES(?,?);";
-    public static final String INSERT_STANDUP = "INSERT INTO concerts (eventId, comedianName) " +
+    public static final String INSERT_STANDUP = "INSERT INTO standups (eventId, comedianName) " +
             "VALUES(?,?);";
 
     public static final String QUERY_EVENT_GET_BY_ID = "SELECT * FROM events e, locations l WHERE e.id = ? AND e.locationId = l.id";
