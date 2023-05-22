@@ -12,19 +12,21 @@ import java.util.List;
 
 import static constants.Constants.LOGGER;
 import static constants.Constants.NO_TICKETS_EXCEEDS_LOCATION_CAPACITY;
+import static constants.LogConstants.*;
 
 public class EventServiceImpl implements EventService {
     public final EventRepository eventRepository;
     public final LocationService locationService;
 
     public EventServiceImpl(LocationService locationService) {
-        LOGGER.info("Event Service Created");
+        LOGGER.info(SERVICE_CREATED.formatted(this.getClass().getName()));
         this.locationService = locationService;
         this.eventRepository = new EventRepository(locationService.getLocations());
     }
 
     @Override
     public void addEvent(Event event) {
+        LOGGER.info(ADD_EVENT);
         try {
             if (!EventValidator.validateTicketsToSell(event.getLocation(), event.getTicketsAvailable())) {
                 throw new NoTicketsExceedsCapacityException(NO_TICKETS_EXCEEDS_LOCATION_CAPACITY);
@@ -32,15 +34,15 @@ public class EventServiceImpl implements EventService {
             eventRepository.addEvent(event);
 
         } catch (NoTicketsExceedsCapacityException exception) {
-            LOGGER.warning("Adding Event "+ event.getName() + " failed . An exception occured: "
-                    + exception.getMessage());
+            LOGGER.warning(ADD_EVENT_FAILED
+                    .formatted(event.getName(), exception.getMessage()));
         }
-        LOGGER.info("Adding Event "+ event.getName() + " was successfully done");
+        LOGGER.info(ADD_EVENT_SUCCESS.formatted(event.getName(), event.getId()));
     }
 
     @Override
     public List<Event> getEvents(boolean sorted) {
-        LOGGER.info("Event Service getEvents called.");
+        LOGGER.info(GET_EVENTS.formatted(String.valueOf(sorted)));
         if (sorted) {
             return getEventsSorted();
         } else {
@@ -52,7 +54,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> getEventsSorted() {
-        LOGGER.info("Event Service getEvents called.");
+        LOGGER.info(GET_EVENTS_SORTED);
 
         var events = eventRepository.getEvents();
         Collections.sort(events);

@@ -1,16 +1,42 @@
-May 21, 2023 3:51:53 PM services.impl.LocationServiceImpl <init>
+May 22, 2023 3:13:28 PM services.impl.LocationServiceImpl <init>
 INFO: Location Service created.
-May 21, 2023 3:51:53 PM services.impl.EventServiceImpl <init>
+May 22, 2023 3:13:28 PM services.impl.EventServiceImpl <init>
 INFO: Event Service Created
-May 21, 2023 3:51:53 PM services.impl.LocationServiceImpl getLocations
+May 22, 2023 3:13:28 PM services.impl.LocationServiceImpl getLocations
 INFO: Location Service method getLocations() called.
-May 21, 2023 3:51:53 PM services.impl.TicketServiceImpl <init>
+May 22, 2023 3:13:28 PM services.impl.TicketServiceImpl <init>
 INFO: Ticket Service created;
-May 21, 2023 3:51:53 PM services.impl.EventServiceImpl getEvents
+May 22, 2023 3:13:28 PM services.impl.EventServiceImpl getEvents
 INFO: Event Service getEvents called.
-May 21, 2023 3:51:53 PM services.impl.UserServiceImpl <init>
+May 22, 2023 3:13:28 PM services.impl.UserServiceImpl <init>
 INFO: User Service created.
-May 21, 2023 3:51:53 PM services.impl.UserServiceImpl getUserByUserName
+May 22, 2023 3:13:28 PM services.impl.LocationServiceImpl addLocation
+INFO: Location Service method addLocation() called.
+May 22, 2023 3:13:28 PM services.impl.LocationServiceImpl addLocation
+INFO: Location : Arenele Romane with id : 1 added successfully
+May 22, 2023 3:13:28 PM services.impl.EventServiceImpl addEvent
+INFO: Adding Event Primavara was successfully done
+May 22, 2023 3:13:28 PM services.impl.UserServiceImpl registerNewUser
+INFO: UserService method registerUser with parameters userName= georgiana199 , firstName=Iulia , lastName =Antonescu, birthDate= 2000-05-07T19:00
+May 22, 2023 3:13:28 PM services.impl.UserServiceImpl getUserByUserName
 INFO: User Service method getUserByUserName("georgiana199") called
-May 21, 2023 3:51:53 PM services.impl.UserServiceImpl returnTicket
+May 22, 2023 3:13:28 PM services.impl.UserServiceImpl registerNewUser
+WARNING: User georgiana199 could not be registered. An exception occurred: An user with same username is already registered!
+May 22, 2023 3:13:28 PM services.impl.UserServiceImpl buyTicket
+INFO: UserService, method buyTicket with parameters : userName = georgiana199, event = Primavara, ticketCategory = GENERAL_ENTRANCE was called .
+May 22, 2023 3:13:28 PM services.impl.UserServiceImpl getUserByUserName
+INFO: User Service method getUserByUserName("georgiana199") called
+May 22, 2023 3:13:28 PM services.impl.TicketServiceImpl getAvailableTicket
+INFO: Ticket Service method getAvailableTicket() called with parameters: event = Primavara, category = GENERAL_ENTRANCE
+May 22, 2023 3:13:28 PM services.impl.UserServiceImpl buyTicket
+INFO: Ticket for event Concert{
+	name=Primavara, 
+	location=Arenele Romane, 
+	start date=2023-05-23 hours: 16:00, 
+artistName='Delia'} id :1 was successfully bought.
+May 22, 2023 3:13:28 PM services.impl.UserServiceImpl getUserByUserName
+INFO: User Service method getUserByUserName("georgiana199") called
+May 22, 2023 3:13:28 PM services.impl.TicketServiceImpl deleteTicket
+INFO: Ticket Service method deleteTicket with parameter id = 1 was called
+May 22, 2023 3:13:28 PM services.impl.UserServiceImpl returnTicket
 INFO: User: georgiana199 returned ticketwith id :1 successfully.

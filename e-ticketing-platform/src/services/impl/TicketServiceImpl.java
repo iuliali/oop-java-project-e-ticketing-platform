@@ -2,6 +2,7 @@ package services.impl;
 
 import enums.TicketCategory;
 import exceptions.EventDoesNotHaveRequestedCategoryException;
+import exceptions.TicketNotFoundException;
 import exceptions.TicketsAlreadySoldOutException;
 import models.Event;
 import models.MapEventTicketsConfiguration;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static constants.Constants.*;
+import static constants.LogConstants.*;
 
 public class TicketServiceImpl implements TicketService {
 
@@ -21,7 +23,7 @@ public class TicketServiceImpl implements TicketService {
     public final EventService eventService;
 
     public TicketServiceImpl(EventService eventService) {
-        LOGGER.info("Ticket Service created;");
+        LOGGER.info(SERVICE_CREATED.formatted(this.getClass().getName()));
         this.eventService = eventService;
         this.ticketRepository = new TicketRepository(eventService.getEvents(false));
     }
@@ -39,13 +41,15 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public void addTicket(TicketEvent ticket) {
+        LOGGER.info(ADD_TICKET);
         ticketRepository.addTicket(ticket);
     }
 
 
     @Override
     public TicketEvent getAvailableTicket(Event event, TicketCategory category) {
-        LOGGER.info("Ticket Service method getAvailableTicket() called.");
+        LOGGER.info(TICKET_GET_AVAILABLE_TICKET_CALL
+                .formatted(event.getName(), category));
         if (event.getTicketsAvailable().stream().noneMatch(m -> m.getCategory() == category)) {
             throw new EventDoesNotHaveRequestedCategoryException(EVENT_DOES_NOT_HAVE_CATEGORY);
         }
@@ -62,7 +66,13 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public void deleteTicket(Integer id) {
-        ticketRepository.deleteTicket(id);
+        LOGGER.info(TICKET_DELETE_TICKET_CALL.formatted(id));
+        try{
+            ticketRepository.deleteTicket(id);
+        } catch (TicketNotFoundException exception) {
+            LOGGER.warning(DELETE_TICKET_FAILED
+                    .formatted(id, exception.getMessage()));
+        }
     }
 
     private Integer getNoSoldTicketsByEventAndTicketCategory(Event event, TicketCategory category) {

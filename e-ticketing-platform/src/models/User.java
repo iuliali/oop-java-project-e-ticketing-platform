@@ -13,6 +13,10 @@ public class User {
     private String lastName;
     private List<TicketEvent> boughtTickets;
 
+    public User(Integer id) {
+        this.id = id;
+    }
+
     public static void setIdGenerator(Integer generator) {
         idGenerator =  generator;
     }

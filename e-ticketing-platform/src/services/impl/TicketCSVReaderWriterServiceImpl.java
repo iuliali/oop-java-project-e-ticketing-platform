@@ -2,6 +2,7 @@ package services.impl;
 
 import enums.TicketCategory;
 import models.TicketEvent;
+import models.User;
 import services.CSVReaderWriterService;
 
 import static constants.Constants.DELIMITER;
@@ -25,14 +26,15 @@ public class TicketCSVReaderWriterServiceImpl implements CSVReaderWriterService<
     public String objectToCSV(TicketEvent ob) {
         return ob.getId() + DELIMITER +
                 ob.getEvent().getId() + DELIMITER
-                + ob.getTicketCategory().getPriority();
+                + ob.getTicketCategory().name() + DELIMITER
+                + ob.getUser().getId();
     }
     @Override
     public TicketEvent processCSVLine(String line) {
         String[] split = line.split(DELIMITER);
         return new TicketEvent(Integer.parseInt(split[0]),
                         Integer.parseInt(split[1]),
-                        TicketCategory.values()[Integer.parseInt(split[2])]);
+                        TicketCategory.valueOf(split[2]), new User(Integer.parseInt(split[3])));
     }
 
 
