@@ -33,4 +33,11 @@ public class Constants {
     public static final String TICKET_FILE_NAME = "C:\\Users\\talpa\\Desktop\\info\\sem_2\\java\\oop-java-project-e-ticketing-platform\\e-ticketing-platform\\src\\resources\\persistence\\csv\\ticket.csv";
     public static final String USER_FILE_NAME = "C:\\Users\\talpa\\Desktop\\info\\sem_2\\java\\oop-java-project-e-ticketing-platform\\e-ticketing-platform\\src\\resources\\persistence\\csv\\user.csv";
 
+    public static final String CSV_EXCEPTION_WRITE = "An exception occurred when writing into file : %s. Exception message: %s";
+    public static final String CSV_EXCEPTION_READ = "An exception occurred when reading from file : %s. Exception message: %s";
+
+    public static final String TICKET_NOT_FOUND = "Ticket was not found. Id searched for: %d.";
+    public static final String EVENT_NOT_FOUND = "Event was not found. Id searched for: %d.";
+
+
 }

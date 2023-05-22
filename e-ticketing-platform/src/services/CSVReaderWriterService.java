@@ -1,8 +1,13 @@
 package services;
 
+import exceptions.CSVReadWriteException;
+
 import java.io. * ;
 import java.util.ArrayList;
 import java.util.List;
+
+import static constants.Constants.CSV_EXCEPTION_READ;
+import static constants.Constants.CSV_EXCEPTION_WRITE;
 
 public interface CSVReaderWriterService<T> {
 
@@ -17,10 +22,8 @@ public interface CSVReaderWriterService<T> {
             bufferedWriter.write(objectToCSV(ob));
             bufferedWriter.write("\n");
 
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException exception) {
+            throw new CSVReadWriteException(CSV_EXCEPTION_WRITE.formatted(getFileName(), exception.getMessage()));
         }
     }
 
@@ -30,12 +33,8 @@ public interface CSVReaderWriterService<T> {
                 bufferedWriter.write(objectToCSV(ob));
                 bufferedWriter.write("\n");
             }
-        } catch (FileNotFoundException e) {
-            //todo
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            //todo
-            throw new RuntimeException(e);
+        } catch (IOException exception) {
+            throw new CSVReadWriteException(CSV_EXCEPTION_WRITE.formatted(getFileName(), exception.getMessage()));
         }
     }
 
@@ -48,12 +47,8 @@ public interface CSVReaderWriterService<T> {
                 currentLine = bufferedReader.readLine();
             }
             return resultLines;
-        } catch (FileNotFoundException e) {
-            //TODO
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            //TODO
-            throw new RuntimeException(e);
+        } catch (IOException exception) {
+            throw new CSVReadWriteException(CSV_EXCEPTION_READ.formatted(getFileName(), exception.getMessage()));
         }
 
     }

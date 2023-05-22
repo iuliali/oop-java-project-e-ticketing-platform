@@ -1,10 +1,15 @@
 package repositories;
 
+import exceptions.EventNotFoundException;
+import exceptions.TicketNotFoundException;
 import models.Event;
 import models.TicketEvent;
 import services.impl.TicketCSVReaderWriterServiceImpl;
 
 import java.util.*;
+
+import static constants.Constants.EVENT_NOT_FOUND;
+import static constants.Constants.TICKET_NOT_FOUND;
 
 public class TicketRepository {
     private List<TicketEvent> soldTickets;
@@ -14,7 +19,7 @@ public class TicketRepository {
         this.soldTickets =  this.csvReaderWriterService.read();
         for (TicketEvent ticket: this.soldTickets) {
             Event event = events.stream().filter(e -> e.getId() == ticket.getEvent().getId()).findAny().orElseThrow(
-                    //todo throw ex
+                    () -> new EventNotFoundException(EVENT_NOT_FOUND.formatted(ticket.getEvent().getId()))
             );
             ticket.setEvent(event);
         }
@@ -46,7 +51,7 @@ public class TicketRepository {
 
     public void deleteTicket(Integer id) {
         TicketEvent ticket = getTicketById(id).orElseThrow(
-                //todo
+                () -> new TicketNotFoundException(TICKET_NOT_FOUND.formatted(id))
         );
         this.soldTickets.remove(ticket);
         this.csvReaderWriterService.writeAll(this.soldTickets);
