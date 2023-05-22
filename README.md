@@ -3,8 +3,9 @@
 
 ### ETAPELE 2 SI 3
 Etapele 2 si 3 au fost dezvoltate pe branchurile :
-- ```csv-persistence``` https://github.com/iuliali/oop-java-project-e-ticketing-platform/tree/csv-persistence 
--  ```db-persistence``` https://github.com/iuliali/oop-java-project-e-ticketing-platform/tree/db-persistence
+- ```csv-persistence``` [link](../csv-persistence) 
+-  ```db-persistence``` [link](../db-persistence)
+
 
 ### ETAPA 1
 
