@@ -1,5 +1,6 @@
 package services.impl;
 
+import dbconfig.DatabaseConfiguration;
 import enums.TicketCategory;
 import exceptions.EventDoesNotHaveRequestedCategoryException;
 import exceptions.TicketsAlreadySoldOutException;
@@ -20,10 +21,10 @@ public class TicketServiceImpl implements TicketService {
     public final TicketRepository ticketRepository;
     public final EventService eventService;
 
-    public TicketServiceImpl(EventService eventService) {
+    public TicketServiceImpl(EventService eventService, DatabaseConfiguration databaseConfiguration) {
         LOGGER.info("Ticket Service created;");
         this.eventService = eventService;
-        this.ticketRepository = new TicketRepository(eventService.getEvents(false));
+        this.ticketRepository = new TicketRepository(databaseConfiguration);
     }
 
     @Override

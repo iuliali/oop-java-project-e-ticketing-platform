@@ -1,54 +1,33 @@
 package repositories;
 
-import models.Event;
+import dbconfig.DatabaseConfiguration;
 import models.TicketEvent;
-import services.impl.TicketCSVReaderWriterServiceImpl;
 
 import java.util.*;
 
 public class TicketRepository {
-    private List<TicketEvent> soldTickets;
-    private final TicketCSVReaderWriterServiceImpl csvReaderWriterService = TicketCSVReaderWriterServiceImpl.getInstance();
+    private final DatabaseConfiguration databaseConfiguration;
 
-    public TicketRepository(List<Event> events) {
-        this.soldTickets =  this.csvReaderWriterService.read();
-        for (TicketEvent ticket: this.soldTickets) {
-            Event event = events.stream().filter(e -> e.getId() == ticket.getEvent().getId()).findAny().orElseThrow(
-                    //todo throw ex
-            );
-            ticket.setEvent(event);
-        }
-        if (!this.soldTickets.isEmpty()) {
-            Integer maxId = this.soldTickets.stream().map(TicketEvent::getId)
-                    .reduce(Integer.MIN_VALUE, Integer::max);
-            TicketEvent.setIdGenerator(maxId + 1);
-        }
+    public TicketRepository(DatabaseConfiguration databaseConfiguration) {
+        this.databaseConfiguration = databaseConfiguration;
     }
 
     public List<TicketEvent> getSoldTickets() {
-        return this.soldTickets;
+        return null;
     }
 
 
     public void addTicket(TicketEvent ticket) {
 
-        if(soldTickets == null) {
-            this.soldTickets = new ArrayList<>();
-        }
-        this.soldTickets.add(ticket);
-        this.csvReaderWriterService.write(ticket);
+
 
     }
 
     public Optional<TicketEvent> getTicketById(Integer id) {
-        return this.soldTickets.stream().filter(t -> t.getId() == id).findFirst();
+        return null;
     }
 
     public void deleteTicket(Integer id) {
-        TicketEvent ticket = getTicketById(id).orElseThrow(
-                //todo
-        );
-        this.soldTickets.remove(ticket);
-        this.csvReaderWriterService.writeAll(this.soldTickets);
+
     }
 }

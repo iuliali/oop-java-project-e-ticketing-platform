@@ -13,6 +13,8 @@ public class User {
     private String lastName;
     private List<TicketEvent> boughtTickets;
 
+
+
     public static void setIdGenerator(Integer generator) {
         idGenerator =  generator;
     }
@@ -84,7 +86,8 @@ public class User {
         this.boughtTickets = boughtTickets;
     }
 
-    public User(String userName, LocalDateTime birthDate, String firstName, String lastName) {
+    public User(String userName,
+                LocalDateTime birthDate, String firstName, String lastName) {
         this.id = ++idGenerator;
         this.userName = userName;
         this.birthDate = birthDate;
@@ -94,7 +97,11 @@ public class User {
     }
 
 
-    public User(Integer id, String userName, LocalDateTime birthDate, String firstName, String lastName) {
+    public User(Integer id,
+                String userName,
+                LocalDateTime birthDate,
+                String firstName,
+                String lastName) {
         this.id = id;
         this.userName = userName;
         this.birthDate = birthDate;

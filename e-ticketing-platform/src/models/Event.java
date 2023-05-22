@@ -1,7 +1,7 @@
 package models;
 
 import enums.EventType;
-import enums.TicketCategory;
+import enums.LocationType;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,6 +16,8 @@ public class Event implements Comparable<Event> {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private EventType eventType;
+
+
 
     public static Integer getIdGenerator() {
         return idGenerator;
@@ -104,6 +106,9 @@ public class Event implements Comparable<Event> {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+
+
     public Event(Integer id) {
         this.id =id;
     }

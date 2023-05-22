@@ -1,5 +1,6 @@
 package services.impl;
 
+import dbconfig.DatabaseConfiguration;
 import dtos.UserDto;
 import enums.TicketCategory;
 import exceptions.EventDoesNotHaveRequestedCategoryException;
@@ -22,8 +23,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final TicketService ticketService;
 
-        public UserServiceImpl(TicketService ticketService) {
-        this.userRepository = new UserRepository();
+        public UserServiceImpl(TicketService ticketService, DatabaseConfiguration databaseConfiguration) {
+        this.userRepository = new UserRepository(databaseConfiguration);
         this.ticketService = ticketService;
         LOGGER.info("User Service created.");
     }

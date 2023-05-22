@@ -1,5 +1,6 @@
 package services.impl;
 
+import dbconfig.DatabaseConfiguration;
 import exceptions.NoTicketsExceedsCapacityException;
 import models.Event;
 import repositories.EventRepository;
@@ -17,10 +18,10 @@ public class EventServiceImpl implements EventService {
     public final EventRepository eventRepository;
     public final LocationService locationService;
 
-    public EventServiceImpl(LocationService locationService) {
+    public EventServiceImpl(LocationService locationService, DatabaseConfiguration databaseConfiguration) {
         LOGGER.info("Event Service Created");
         this.locationService = locationService;
-        this.eventRepository = new EventRepository(locationService.getLocations());
+        this.eventRepository = new EventRepository(databaseConfiguration);
     }
 
     @Override

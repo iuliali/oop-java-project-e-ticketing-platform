@@ -1,5 +1,6 @@
 package services.impl;
 
+import dbconfig.DatabaseConfiguration;
 import dtos.LocationDto;
 import models.Location;
 import repositories.LocationRepository;
@@ -13,8 +14,8 @@ public class LocationServiceImpl implements LocationService {
     private final LocationRepository locationRepository;
 
 
-    public LocationServiceImpl() {
-        this.locationRepository = new LocationRepository();
+    public LocationServiceImpl(DatabaseConfiguration databaseConfiguration) {
+        this.locationRepository = new LocationRepository(databaseConfiguration);
         LOGGER.info("Location Service created.");
 
     }
