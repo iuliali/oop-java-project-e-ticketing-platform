@@ -1,5 +1,9 @@
 ## PROIECT PAO TALPALARIU IULIA-GEORGIANA 234
 <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjk1NGZmZDRlNTVlMWY5OTI3NzAxMmYxMGZhOTljNmJlMzVjNWNmYiZjdD1n/8GjxwxtZWS29xlJnUH/giphy.gif" width="400" height="300" />
+## ETAPELE 2 SI 3
+Etapele 2 si 3 au fost dezvoltate pe branchurile ```csv-persistence```, respectivv ```db-persistence```.
+
+##ETAPA 1
 
 ### Tipuri de obiecte: 
  - Location
