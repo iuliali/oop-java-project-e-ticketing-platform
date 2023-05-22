@@ -6,11 +6,17 @@ import models.TicketEvent;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface TicketService {
-    Map<Event, List<TicketEvent>> getTickets();
-    List<TicketEvent> getTicketById();
-    void addTicket(TicketEvent ticket, Event event);
+    List<TicketEvent> getTickets();
+    Optional<TicketEvent> getTicketById(Integer id);
+    void addTicket(TicketEvent ticket);
     TicketEvent getAvailableTicket(Event event, TicketCategory category);
-    void showSoldTicketsByEvents();
+
+    List<TicketEvent> getSoldTicketsByEventId(Integer eventId);
+    List<TicketEvent> getSoldTicketsByUserId(Integer userId);
+
+    void deleteTicket(Integer id);
+    Map<TicketCategory, Integer> searchAvailableTicketsPerEvent(String eventName);
 }

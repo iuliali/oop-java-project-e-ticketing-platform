@@ -4,15 +4,39 @@ import enums.EventType;
 import enums.TicketCategory;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 import static constants.Constants.TIME_FORMATTER;
 
-public abstract class Event implements Comparable<Event> {
+public class Event implements Comparable<Event> {
+    private static Integer idGenerator = 0;
+    private Integer id;
     private String name;
     private Location location;
     private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private EventType eventType;
+
+
+
+    public static Integer getIdGenerator() {
+        return idGenerator;
+    }
+
+    public static void setIdGenerator(Integer idGenerator) {
+        Event.idGenerator = idGenerator;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    private List<MapEventTicketsConfiguration> ticketsAvailable;
 
     public EventType getEventType() {
         return eventType;
@@ -22,17 +46,24 @@ public abstract class Event implements Comparable<Event> {
         this.eventType = eventType;
     }
 
-    private Map<TicketCategory, Integer> ticketsAvailable;
 
     public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public Map<TicketCategory, Integer> getTicketsAvailable() {
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public List<MapEventTicketsConfiguration> getTicketsAvailable() {
         return ticketsAvailable;
     }
 
-    public void setTicketsAvailable(Map<TicketCategory, Integer> ticketsAvailable) {
+    public void setTicketsAvailable(List<MapEventTicketsConfiguration> ticketsAvailable) {
         this.ticketsAvailable = ticketsAvailable;
     }
 
@@ -48,14 +79,68 @@ public abstract class Event implements Comparable<Event> {
                 "\tstart date=" + startDate.toLocalDate() + " hours: " + startDate.toLocalTime().format(TIME_FORMATTER) + ", \n";
     }
 
-    protected Event(String name, Location location, LocalDateTime startDate,
-                 EventType eventType, Map<TicketCategory, Integer> ticketsAvailable) {
+    public Event(String name,
+                 Location location,
+                 LocalDateTime startDate,
+                 LocalDateTime endDate,
+                 EventType eventType,
+                 List<MapEventTicketsConfiguration> configurations) {
+        this.id = ++idGenerator;
         this.eventType = eventType;
         this.name = name;
         this.location = location;
         this.startDate = startDate;
-        this.ticketsAvailable = ticketsAvailable;
+        this.endDate = endDate;
+        this.ticketsAvailable = configurations;
     }
+
+    public Event(String name,
+                 Location location,
+                 LocalDateTime startDate,
+                 LocalDateTime endDate,
+                 EventType eventType,
+                 Map<TicketCategory, Integer> configurations) {
+        this.id = ++idGenerator;
+        this.eventType = eventType;
+        this.name = name;
+        this.location = location;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.ticketsAvailable = configurations.entrySet()
+                .stream().map(e -> new MapEventTicketsConfiguration(e.getKey(), e.getValue()))
+                .toList();
+    }
+
+    public Event(Integer id, String name,
+                 Location location,
+                 LocalDateTime startDate,
+                 LocalDateTime endDate,
+                 EventType eventType
+                 ) {
+        this.id =id;
+        this.eventType = eventType;
+        this.name = name;
+        this.location = location;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    public Event(Event other) {
+        this.id = other.id;
+        this.eventType = other.eventType;
+        this.name = other.name;
+        this.location = other.location;
+        this.startDate = other.startDate;
+        this.endDate = other.endDate;
+        this.ticketsAvailable = other.ticketsAvailable;
+    }
+
+
+
+    public Event(Integer id) {
+        this.id =id;
+    }
+
 
     public String getName() {
         return name;

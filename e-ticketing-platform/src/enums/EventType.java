@@ -1,15 +1,21 @@
 package enums;
 
 public enum EventType {
-    FESTIVAL ("Festival"), FESTIVAL_DAY ("Festival Day"), CONCERT("Concert"), STAND_UP("Stand-up");
+    CONCERT("Concert", 0), STAND_UP("Stand-up", 1), PLAY("PLAY", 2);
 
     private final String name;
+    private final int value;
 
     public String getName() {
         return name;
     }
 
-    EventType(String name) {
+    EventType(String name, int value) {
         this.name = name;
+        this.value = value;
+    }
+
+    public Integer getValue() {
+        return value;
     }
 }

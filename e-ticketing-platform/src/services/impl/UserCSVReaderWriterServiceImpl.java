@@ -5,10 +5,12 @@ import services.CSVReaderWriterService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import static constants.Constants.DELIMITER;
+import static constants.Constants.USER_FILE_NAME;
 
 public class UserCSVReaderWriterServiceImpl implements CSVReaderWriterService<User> {
     private static UserCSVReaderWriterServiceImpl INSTANCE = null;
-    private static final String FILE_NAME = "C:\\Users\\talpa\\Desktop\\info\\sem_2\\java\\oop-java-project-e-ticketing-platform\\e-ticketing-platform\\src\\resources\\persistence\\user.csv";
+    private static final String FILE_NAME = USER_FILE_NAME;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
 
     public static UserCSVReaderWriterServiceImpl getInstance() {
@@ -23,17 +25,18 @@ public class UserCSVReaderWriterServiceImpl implements CSVReaderWriterService<Us
 
     @Override
     public String objectToCSV(User ob) {
-        return ob.getUserName() + DELIMITER
+        return ob.getId() + DELIMITER +
+                ob.getUserName() + DELIMITER
                 + ob.getBirthDate().format(formatter) + DELIMITER
                 + ob.getFirstName() + DELIMITER
-                + ob.getFirstName();
+                + ob.getLastName();
     }
     @Override
     public User processCSVLine(String line) {
         String[] split = line.split(DELIMITER);
-        String dateString = split[1];
+        String dateString = split[2];
         LocalDateTime birthDate = LocalDateTime.parse(dateString, formatter);
-        return new User(split[0], birthDate, split[2], split[3]);
+        return new User(Integer.parseInt(split[0]), split[1], birthDate, split[3], split[4]);
     }
 
 
@@ -41,5 +44,6 @@ public class UserCSVReaderWriterServiceImpl implements CSVReaderWriterService<Us
     public String getFileName() {
         return FILE_NAME;
     }
+
 
 }

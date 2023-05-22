@@ -6,6 +6,7 @@ Etapele 2 si 3 au fost dezvoltate pe branchurile :
 - ```csv-persistence``` [link](../csv-persistence) 
 -  ```db-persistence``` [link](../db-persistence)
 
+
 ### ETAPA 1
 
 ### Tipuri de obiecte: 

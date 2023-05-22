@@ -1,8 +1,8 @@
 package enums;
 
 public enum TicketCategory {
-    VIP("VIP", 0), GOLDEN_CIRCLE("Golden Circle", 1),
-    GENERAL_ENTRANCE("General Entrance", 2),DAY_PASS("Day Pass", 4), PASS("Pass", 5);
+    VIP("VIP", 0), GOLDEN_CIRCLE("GoldenCircle", 1),
+    GENERAL_ENTRANCE("GeneralEntrance", 2),DAY_PASS("DayPass", 4), PASS("Pass", 5);
     private final String name;
     private final int priority;
 
