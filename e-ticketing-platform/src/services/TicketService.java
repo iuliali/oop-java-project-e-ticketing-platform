@@ -13,5 +13,8 @@ public interface TicketService {
     void addTicket(TicketEvent ticket);
     TicketEvent getAvailableTicket(Event event, TicketCategory category);
 
+    List<TicketEvent> getSoldTicketsByEventId(Integer eventId);
+    List<TicketEvent> getSoldTicketsByUserId(Integer userId);
+
     void deleteTicket(Integer id);
 }

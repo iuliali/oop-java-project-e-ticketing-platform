@@ -34,7 +34,6 @@ public class UserRepository {
                         LocalDateTime.of(resultSet.getDate("birthDate").toLocalDate(), LocalTime.MIDNIGHT),
                         resultSet.getString("firstName"),
                         resultSet.getString("lastName")
-
                 ));
             }
         }catch (SQLException e) {
@@ -59,17 +58,17 @@ public class UserRepository {
 
     public Optional<User> getUserByUserName(String userName) {
         User user = null;
-        try (PreparedStatement statement = databaseConfiguration.getConnection().prepareStatement(QUERY_USER_GET_BY_USERNAME)) {
+        try (PreparedStatement statement = databaseConfiguration.getConnection()
+                .prepareStatement(QUERY_USER_GET_BY_USERNAME)) {
             statement.setString(1, userName);
             ResultSet resultSet = statement.executeQuery();
-            while(resultSet.next()) {
+            if(resultSet.next()) {
                 user =  new User(
                         resultSet.getInt("id"),
                         resultSet.getString("userName"),
                         LocalDateTime.of(resultSet.getDate("birthDate").toLocalDate(), LocalTime.MIDNIGHT),
                         resultSet.getString("firstName"),
                         resultSet.getString("lastName"));
-                break;
             }
         } catch (SQLException e) {
             LOGGER.warning(e.getMessage());

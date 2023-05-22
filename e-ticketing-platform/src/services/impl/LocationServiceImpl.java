@@ -7,6 +7,7 @@ import repositories.LocationRepository;
 import services.LocationService;
 
 import java.util.List;
+import java.util.Optional;
 
 import static constants.Constants.LOGGER;
 
@@ -48,5 +49,10 @@ public class LocationServiceImpl implements LocationService {
         LOGGER.info("Location Service method editLocation() called.");
         locationRepository.deleteLocation(id);
         LOGGER.info("Location with id : %d deleted successfully".formatted(id));
+    }
+
+    @Override
+    public Optional<Location> getLocationById(Integer id) {
+        return locationRepository.getLocationById(id);
     }
 }

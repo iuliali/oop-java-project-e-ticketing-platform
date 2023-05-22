@@ -11,6 +11,7 @@ import repositories.TicketRepository;
 import services.EventService;
 import services.TicketService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,12 +30,35 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<TicketEvent> getTickets() {
-        return ticketRepository.getSoldTickets();
+        List<TicketEvent> tickets = new ArrayList<>();
+        try{
+            List<TicketEvent> ticketsWithoutEvents = ticketRepository.getSoldTickets();
+            List<Event> events = eventService.getEvents(false);
+            for(TicketEvent ticket : ticketsWithoutEvents) {
+                Event event = events.stream().filter(e -> e.getId() == ticket.getEvent().getId())
+                        .findFirst()
+                        .orElseThrow();
+                ticket.setEvent(event);
+                tickets.add(ticket);
+            }
+        } catch (RuntimeException e) {
+            LOGGER.warning("Exception occurred while getting tickets" + e.getMessage());
+        }
+        return tickets;
     }
 
     @Override
     public Optional<TicketEvent> getTicketById(Integer id) {
-        return ticketRepository.getTicketById(id);
+        TicketEvent ticketEvent = null;
+        try{
+            TicketEvent ticketWithoutEvent =  ticketRepository.getTicketById(id).orElseThrow();
+            Event event = eventService.getEventById(ticketWithoutEvent.getEvent().getId()).orElseThrow();
+            ticketWithoutEvent.setEvent(event);
+            ticketEvent = ticketWithoutEvent;
+        } catch (RuntimeException e) {
+            LOGGER.warning("Exception occurred while getting a ticket By Id" + e.getMessage());
+        }
+        return Optional.ofNullable(ticketEvent);
     }
 
 
@@ -54,6 +78,8 @@ public class TicketServiceImpl implements TicketService {
                 .map(MapEventTicketsConfiguration::getQuantity).reduce(0, Integer::sum);
         Integer noSoldTickets = getNoSoldTicketsByEventAndTicketCategory(event, category);
         if (totalNoTickets - noSoldTickets <= 0) {
+            LOGGER.info("Tickets already sold out for event: " + event.getName());
+
             throw new TicketsAlreadySoldOutException(TICKETS_ALREADY_SOLD);
         } else {
             return new TicketEvent(event, category);
@@ -62,14 +88,24 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    public List<TicketEvent> getSoldTicketsByEventId(Integer eventId) {
+        return getTickets().stream().filter(t -> t.getUser().getId() == eventId).toList();
+    }
+
+    @Override
+    public List<TicketEvent> getSoldTicketsByUserId(Integer userId) {
+        return getTickets().stream().filter(t -> t.getUser().getId() == userId).toList();
+    }
+
+    @Override
     public void deleteTicket(Integer id) {
         ticketRepository.deleteTicket(id);
     }
 
     private Integer getNoSoldTicketsByEventAndTicketCategory(Event event, TicketCategory category) {
-        return event.getTicketsAvailable().stream().filter(m->m.getCategory() == category)
-                .map(MapEventTicketsConfiguration::getQuantity)
-                .reduce(0, Integer::sum);
+        return Math.toIntExact(getSoldTicketsByEventId(event.getId()).stream()
+                .filter(t -> t.getTicketCategory() == category)
+                .count());
     }
 
 }

@@ -78,7 +78,7 @@ public class LocationRepository {
 
     public void editLocation(Integer id, LocationDto editedLocation) {
        Location location = getLocationById(id).orElseThrow(
-               () -> new NoLocationWithRequestedIdFoundException(NO_LOCATION_WITH_ID_REQUESTED_FOUND)
+               () -> new NoLocationWithRequestedIdFoundException(NO_LOCATION_WITH_ID_REQUESTED_FOUND, id)
        );
 
         updateLocation(location, editedLocation);

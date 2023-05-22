@@ -1,7 +1,6 @@
 package models;
 
 import enums.EventType;
-import enums.LocationType;
 
 import java.time.LocalDateTime;
 import java.util.List;

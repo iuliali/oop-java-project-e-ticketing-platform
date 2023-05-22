@@ -13,6 +13,9 @@ public class User {
     private String lastName;
     private List<TicketEvent> boughtTickets;
 
+    public User(int userId) {
+        this.id = userId;
+    }
 
 
     public static void setIdGenerator(Integer generator) {

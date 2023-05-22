@@ -4,6 +4,7 @@ import dbconfig.DatabaseConfiguration;
 import dtos.UserDto;
 import enums.TicketCategory;
 import exceptions.EventDoesNotHaveRequestedCategoryException;
+import exceptions.NoUserException;
 import exceptions.UserNameAlreadyExistsException;
 import exceptions.UserNameNotFoundException;
 import models.Event;
@@ -14,6 +15,7 @@ import services.TicketService;
 import services.UserService;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,8 +50,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUsers() {
+        List<User> users = new ArrayList<>();
         LOGGER.info("User Service method getUsers() called");
-        return userRepository.getUsers();
+        try {
+            users = userRepository.getUsers();
+            for(User user: users) {
+                List<TicketEvent> tickets = ticketService.getSoldTicketsByUserId(user.getId());
+                user.setBoughtTickets(tickets);
+            }
+            if (users.isEmpty()) {
+                throw new NoUserException(NO_USER_EXCEPTION_MESSAGE);
+            }
+        } catch (RuntimeException e) {
+            LOGGER.warning("Exception occurred: "+ e.getMessage());
+        }
+        return users;
     }
 
     @Override
@@ -83,6 +98,7 @@ public class UserServiceImpl implements UserService {
                     () -> new UserNameNotFoundException(USERNAME_NOT_FOUND, userName)
             );
             ticket = ticketService.getAvailableTicket(event, category);
+            ticket.setUser(user);
 
         } catch (UserNameNotFoundException | EventDoesNotHaveRequestedCategoryException exception) {
 

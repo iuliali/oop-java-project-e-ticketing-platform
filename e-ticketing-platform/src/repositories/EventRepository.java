@@ -1,19 +1,21 @@
 package repositories;
 
 import dbconfig.DatabaseConfiguration;
+import dtos.EventDto;
 import enums.EventType;
 import enums.LocationType;
-import models.Event;
-import models.Location;
-import models.MapEventTicketsConfiguration;
+import exceptions.DBException;
+import exceptions.EventNotFoundException;
+import models.*;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static constants.Constants.LOGGER;
+import static constants.Constants.*;
 import static constants.StatementsString.*;
 
 public class EventRepository {
@@ -25,12 +27,46 @@ public class EventRepository {
         this.mapEventTicketsRepository = new MapEventTicketsRepository(databaseConfiguration);
     }
 
+    private List<MapEventTicketsConfiguration> getAllMapsByEventId(Integer eventId) {
+        return mapEventTicketsRepository.getAllMapsForEventId(eventId);
+    }
+
     public List<Event> getEvents() {
-        return null;
+        List<Event> events = new ArrayList<>();
+        try (PreparedStatement statement = databaseConfiguration.getConnection()
+                .prepareStatement(QUERY_GET_ALL_EVENTS)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Event event = new Event (
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        new Location(
+                                resultSet.getInt(7),
+                                resultSet.getString(8),
+                                resultSet.getString(9),
+                                resultSet.getInt(10),
+                                LocationType.valueOf(resultSet.getString(11))
+                        ),
+                        LocalDateTime.of(resultSet.getDate("startDate").toLocalDate(), LocalTime.MIDNIGHT),
+                        LocalDateTime.of(resultSet.getDate("endDate").toLocalDate(), LocalTime.MIDNIGHT),
+                        EventType.valueOf(resultSet.getString("eventType")));
+                events.add(event);
+            }
+
+        } catch (SQLException e) {
+            LOGGER.warning(e.getMessage());
+            throw new DBException(DB_EXCEPTION, EventRepository.class);
+        }
+
+        for( Event event: events) {
+            event.setTicketsAvailable(getAllMapsByEventId(event.getId()));
+        }
+        return events;
     }
 
     public void addEvent(Event event) {
         Integer eventId = null;
+
         try (PreparedStatement statement = databaseConfiguration.getConnection().prepareStatement(INSERT_EVENT,
                 Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, event.getName());
@@ -43,6 +79,26 @@ public class EventRepository {
             if (resultSet.next()) {
                 eventId = resultSet.getInt(1);
             }
+        } catch (SQLException e) {
+            LOGGER.warning(e.getMessage());
+            throw new DBException(DB_EXCEPTION, EventRepository.class);
+        }
+
+        String queryAdditional = "";
+        String additionalColumn = "";
+        if (event instanceof Concert) {
+            queryAdditional = INSERT_CONCERT;
+            additionalColumn = ((Concert) event).getArtistName();
+        } else if (event instanceof StandUp) {
+            queryAdditional = INSERT_STANDUP;
+            additionalColumn = ((StandUp) event).getComedianName();
+        }
+        try (PreparedStatement statement = databaseConfiguration.getConnection()
+                .prepareStatement(queryAdditional)) {
+            statement.setInt(1, eventId);
+            statement.setString(2, additionalColumn);
+            statement.execute();
+
         } catch (SQLException e) {
             LOGGER.warning(e.getMessage());
         }
@@ -61,10 +117,12 @@ public class EventRepository {
                 event = new Event (
                         resultSet.getInt("id"),
                         resultSet.getString("name"),
-                        new Location(resultSet.getString("name"),
-                                resultSet.getString("address"),
-                                resultSet.getInt("totalCapacity"),
-                                LocationType.valueOf(resultSet.getString("type"))
+                        new Location(
+                                resultSet.getInt(7),
+                                resultSet.getString(8),
+                                resultSet.getString(9),
+                                resultSet.getInt(10),
+                                LocationType.valueOf(resultSet.getString(11))
                                 ),
                        LocalDateTime.of(resultSet.getDate("startDate").toLocalDate(), LocalTime.MIDNIGHT),
                         LocalDateTime.of(resultSet.getDate("endDate").toLocalDate(), LocalTime.MIDNIGHT),
@@ -72,6 +130,10 @@ public class EventRepository {
             }
         } catch (SQLException e) {
             LOGGER.warning(e.getMessage());
+            throw new DBException(DB_EXCEPTION, EventRepository.class);
+        }
+        if (event != null) {
+            event.setTicketsAvailable(getAllMapsByEventId(event.getId()));
         }
         return Optional.ofNullable(event);
     }
@@ -83,7 +145,44 @@ public class EventRepository {
 
         } catch (SQLException e) {
             LOGGER.warning(e.getMessage());
+            throw new DBException(DB_EXCEPTION, EventRepository.class);
         }
-        LOGGER.info("eVENT with id=%d deleted successfully".formatted(id));
+        LOGGER.info("Event with id=%d deleted successfully".formatted(id));
+    }
+
+    public void editEvent(Integer id, EventDto editedDto) {
+
+        Event event = getEventById(id).orElseThrow(
+                () -> new EventNotFoundException(EVENT_NOT_FOUND,id)
+        );
+        updateEvent(event, editedDto);
+
+        try (PreparedStatement statement = databaseConfiguration.getConnection().prepareStatement(UPDATE_EVENT_BY_ID)) {
+            statement.setInt(5, id);
+            statement.setString(1, event.getName());
+            statement.setDate(2, Date.valueOf(event.getStartDate().toLocalDate()));
+            statement.setDate(3, Date.valueOf(event.getEndDate().toLocalDate()));
+            statement.setInt(4, editedDto.getLocationId());
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            LOGGER.warning(e.getMessage());
+            throw new DBException(DB_EXCEPTION,EventRepository.class);
+
+        }
+        LOGGER.info("Event with id=%d updated successfully".formatted(id));
+    }
+
+    private void updateEvent(Event event, EventDto editedEvent) {
+        if (editedEvent.getName() != null && !editedEvent.getName().isEmpty()) {
+            event.setName(editedEvent.getName());
+        }
+        if (editedEvent.getStartDate() != null) {
+            event.setStartDate(editedEvent.getStartDate());
+        }
+        if (editedEvent.getEndDate() != null) {
+            event.setEndDate(editedEvent.getEndDate());
+        }
     }
 }

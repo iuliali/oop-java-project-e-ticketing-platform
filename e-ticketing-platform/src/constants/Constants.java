@@ -16,8 +16,10 @@ public class Constants {
     public static final String EVENT_DOES_NOT_HAVE_CATEGORY = "Event does not have requested category";
     public static final String NO_TICKETS_EXCEEDS_LOCATION_CAPACITY = "You cannot sell more tickets than location capacity!";
     public static final String EVENT_LIST_EMPTY = "No Event registered!";
+    public static final String EVENT_NOT_FOUND = "Event was not found, id searched for:";
+
     public static final String USERNAME_ALREADY_EXISTS = "An user with same username is already registered!";
-    public static final String NO_LOCATION_WITH_ID_REQUESTED_FOUND = "There is no location with the id provided.";
+    public static final String NO_LOCATION_WITH_ID_REQUESTED_FOUND = "There is no location with the id provided: ";
     public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
     public static final String LOGS_FILE_NAME = "e_ticketing_platform.log";
 
